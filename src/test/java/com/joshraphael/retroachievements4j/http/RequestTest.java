@@ -12,6 +12,8 @@ public class RequestTest {
                 .methodGET()
                 .userAgent("retroachievements4j/v0.0.0")
                 .bearerToken("secret_bearer")
+                .U("myUsername")
+                .Y("secret_token")
                 .build();
         assertEquals("http://localhost", request.getHost());
         assertEquals("/api/v1/some_resource", request.getPath());
@@ -21,5 +23,10 @@ public class RequestTest {
         assertTrue(request.getHeaders().containsKey("Authorization"));
         assertEquals("retroachievements4j/v0.0.0", request.getHeaders().get("User-Agent"));
         assertEquals("Bearer secret_bearer", request.getHeaders().get("Authorization"));
+        assertEquals(2, request.getQueryParameters().size());
+        assertTrue(request.getQueryParameters().containsKey("u"));
+        assertTrue(request.getQueryParameters().containsKey("y"));
+        assertEquals("myUsername", request.getQueryParameters().get("u"));
+        assertEquals("secret_token", request.getQueryParameters().get("y"));
     }
 }

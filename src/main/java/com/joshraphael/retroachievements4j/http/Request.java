@@ -73,6 +73,14 @@ public class Request {
             return this;
         }
 
+        public Builder U(String value) {
+            return this.queryParameter("u", value);
+        }
+
+        public Builder Y(String value) {
+            return this.queryParameter("y", value);
+        }
+
         public Builder bearerToken(String token) {
             return this.header("Authorization", String.format("Bearer %s", token));
         }
