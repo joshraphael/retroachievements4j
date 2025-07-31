@@ -6,15 +6,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RequestTest {
     @Test
     void testBuilder() {
-        Request request = new Request.Builder()
+        Request request = new Request()
                 .host("http://localhost")
                 .path("/api/v1/some_resource")
                 .methodGET()
                 .userAgent("retroachievements4j/v0.0.0")
                 .bearerToken("secret_bearer")
                 .U("myUsername")
-                .Y("secret_token")
-                .build();
+                .Y("secret_token");
         assertEquals("http://localhost", request.getHost());
         assertEquals("/api/v1/some_resource", request.getPath());
         assertEquals("GET", request.getMethod());
