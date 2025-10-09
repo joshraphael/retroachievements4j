@@ -1,14 +1,21 @@
 package com.joshraphael.retroachievements4j.http;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.net.URISyntaxException;
+import java.net.http.HttpRequest;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RequestTest {
     @Test
-    void testBuilder() {
+    void testBuild() {
         Request request = new Request()
                 .host("http://localhost")
                 .path("/api/v1/some_resource")
+                .methodOPTIONS()
+                .methodPOST()
                 .methodGET()
                 .userAgent("retroachievements4j/v0.0.0")
                 .bearerToken("secret_bearer")
@@ -27,5 +34,11 @@ public class RequestTest {
         assertTrue(request.getQueryParameters().containsKey("y"));
         assertEquals("myUsername", request.getQueryParameters().get("u"));
         assertEquals("secret_token", request.getQueryParameters().get("y"));
+        Assertions.assertDoesNotThrow(() -> {
+            HttpRequest r = request.build();
+            assertEquals("http", r.uri().getScheme());
+            assertEquals("localhost", r.uri().getHost());
+            assertEquals("/api/v1/some_resource", r.uri().getPath());
+        });
     }
 }

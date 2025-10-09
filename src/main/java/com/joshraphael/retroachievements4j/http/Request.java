@@ -12,8 +12,8 @@ public class Request {
     private String host;
     private String path;
     private String method;
-    private Map<String, String> queryParameters;
-    private Map<String, String> headers;
+    private final Map<String, String> queryParameters;
+    private final Map<String, String> headers;
 
     public Request() {
         this.host = "";
@@ -52,6 +52,11 @@ public class Request {
 
     public Request methodOPTIONS() {
         this.method = "OPTIONS";
+        return this;
+    }
+
+    public Request methodPOST() {
+        this.method = "POST";
         return this;
     }
 
