@@ -1,5 +1,7 @@
 package com.joshraphael.retroachievements4j;
 
+import com.joshraphael.retroachievements4j.models.game.GetGame;
+
 public interface RetroAchievements {
-    void start();
+    GetGame GetGame(int gameID);
 }
