@@ -1,9 +1,13 @@
 package com.joshraphael.retroachievements4j;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.joshraphael.retroachievements4j.http.BadHttpResponseException;
 import com.joshraphael.retroachievements4j.http.Request;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 
@@ -28,20 +32,17 @@ public class Client implements RetroAchievements {
                 .userAgent(this.userAgent);
     }
 
-    public <T> T Do(Request r, Class<T> t) {
-        T resp;
-        try {
-            String response = this.client.send(r.build(), HttpResponse.BodyHandlers.ofString()).body();
-            ObjectMapper mapper = new ObjectMapper();
-            resp = mapper.readValue(response, t);
-        } catch(Exception e) {
-            // Maybe throw errors in future so clients can handle them
-            resp = null;
+    public <T> T Do(Request r, Class<T> t) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
+        HttpResponse<String> resp = this.client.send(r.build(), HttpResponse.BodyHandlers.ofString());
+        String body = resp.body();
+        if(resp.statusCode() != 200) {
+            throw new BadHttpResponseException(resp.statusCode(), body);
         }
-        return resp;
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(body, t);
     }
 
-    public GetGame GetGame(int gameID) {
+    public GetGame GetGame(int gameID) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
         return this.game.GetGame(gameID);
     }
 }
