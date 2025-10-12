@@ -1,10 +1,12 @@
 plugins {
-    id("java")
+    id("java-library")
     id("maven-publish")
 }
 
-group = "com.joshraphael"
-version = "0.0.1"
+val version: String by project
+val group: String by project
+val artifact: String by project
+
 
 repositories {
     mavenCentral()
@@ -22,6 +24,15 @@ tasks.test {
 }
 
 publishing {
+    publications {
+        // Ensure at least one publication is defined here
+        create<MavenPublication>("maven") {
+            groupId = group
+            artifactId = artifact
+            version = version
+            from(components["java"])
+        }
+    }
     repositories {
         maven("https://maven.pkg.github.com/joshraphael/retroachievements4j") {
             name = "GitHubPackages"
