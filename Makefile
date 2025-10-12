@@ -1,4 +1,10 @@
 SHELL := /bin/bash
 
-test:
+setup:
+	bash scripts/setup.sh
+
+test: setup
 	./gradlew test
+
+publish: setup
+	./gradlew publish

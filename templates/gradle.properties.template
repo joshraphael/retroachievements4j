@@ -1,2 +1,2 @@
-projectVersion = 0.0.5
+projectVersion = ${VERSION}
 projectGroup = com.joshraphael
