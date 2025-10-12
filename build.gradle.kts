@@ -3,7 +3,7 @@ plugins {
     id("maven-publish")
 }
 
-val version: String by project
+val projectVersion: String by project
 val group: String by project
 
 
@@ -28,7 +28,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = group
             artifactId = rootProject.name
-            version = version
+            version = projectVersion
             from(components["java"])
         }
     }
