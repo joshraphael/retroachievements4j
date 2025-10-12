@@ -15,14 +15,22 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation(platform("org.junit:junit-bom:6.0.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter:6.0.0")
+    testImplementation("org.junit.platform:junit-platform-launcher:6.0.0")
+    testImplementation("com.squareup.okhttp3:mockwebserver:5.2.1")
     implementation("org.apache.httpcomponents.client5:httpclient5:5.3.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.20.0")
 }
 
 tasks.test {
     useJUnitPlatform()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 publishing {

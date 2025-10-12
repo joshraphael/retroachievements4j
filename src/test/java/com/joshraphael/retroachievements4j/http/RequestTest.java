@@ -2,8 +2,6 @@ package com.joshraphael.retroachievements4j.http;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.net.URISyntaxException;
 import java.net.http.HttpRequest;
 
 import static org.junit.jupiter.api.Assertions.*;
