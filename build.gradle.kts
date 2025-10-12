@@ -4,7 +4,10 @@ plugins {
 }
 
 val projectVersion: String by project
-val group: String by project
+val projectGroup: String by project
+
+version = projectVersion
+group = projectGroup
 
 
 repositories {
@@ -26,7 +29,7 @@ publishing {
     publications {
         // Ensure at least one publication is defined here
         create<MavenPublication>("maven") {
-            groupId = group
+            groupId = projectGroup
             artifactId = rootProject.name
             version = projectVersion
             from(components["java"])
