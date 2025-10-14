@@ -17,8 +17,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 class ClientTest {
     public static MockWebServer server;
     public static RecordedRequest recordedRequest;
@@ -47,7 +45,7 @@ class ClientTest {
         HttpClient http = HttpClient.newHttpClient();
         Client c = new Client(http, "??>3@>@4>2:@#", "retroachievements4j/v0.0.0", "secret_token");
         Request r = c.newRequestBuilder();
-        assertThrows(URISyntaxException.class, () -> {
+        Assertions.assertThrows(URISyntaxException.class, () -> {
             c.Do(r, String.class);
         });
     }
@@ -59,7 +57,7 @@ class ClientTest {
         EasyMock.replay(mockHttpClient);
         Client c = new Client(mockHttpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
         Request r = c.newRequestBuilder();
-        assertThrows(IOException.class, () -> {
+        Assertions.assertThrows(IOException.class, () -> {
             c.Do(r, String.class);
         });
         EasyMock.verify(mockHttpClient);
@@ -72,7 +70,7 @@ class ClientTest {
         EasyMock.replay(mockHttpClient);
         Client c = new Client(mockHttpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
         Request r = c.newRequestBuilder();
-        assertThrows(InterruptedException.class, () -> {
+        Assertions.assertThrows(InterruptedException.class, () -> {
             c.Do(r, String.class);
         });
         EasyMock.verify(mockHttpClient);
@@ -84,7 +82,7 @@ class ClientTest {
         HttpClient http = HttpClient.newHttpClient();
         Client c = new Client(http, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
         Request r = c.newRequestBuilder();
-        assertThrows(BadHttpResponseException.class, () -> {
+        Assertions.assertThrows(BadHttpResponseException.class, () -> {
             c.Do(r, String.class);
         });
     }
