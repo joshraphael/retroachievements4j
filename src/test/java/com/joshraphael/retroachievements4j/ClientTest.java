@@ -89,11 +89,47 @@ class ClientTest {
 
     @Test
     void testDo() throws IOException, URISyntaxException, InterruptedException {
-        server.enqueue(new MockResponse().setBody("{\"Title\": \"some_game\"}"));
+        server.enqueue(new MockResponse().setBody("""
+           {
+               "Title": "Sonic the Hedgehog",
+               "GameTitle": "Sonic the Hedgehog",
+               "ConsoleID": 1,
+               "ConsoleName": "Mega Drive",
+               "Console": "Mega Drive",
+               "ForumTopicID": 112,
+               "Flags": 0,
+               "GameIcon": "/Images/067895.png",
+               "ImageIcon": "/Images/067895.png",
+               "ImageTitle": "/Images/054993.png",
+               "ImageIngame": "/Images/000010.png",
+               "ImageBoxArt": "/Images/051872.png",
+               "Publisher": "",
+               "Developer": "",
+               "Genre": "",
+               "Released": "1992-06-02 00:00:00",
+               "ReleasedAtGranularity": "day"
+           }
+        """));
         HttpClient http = HttpClient.newHttpClient();
         Client c = new Client(http, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
         Request r = c.newRequestBuilder();
         GetGame g = c.Do(r, GetGame.class);
-        Assertions.assertEquals("some_game", g.Title);
+        Assertions.assertEquals("Sonic the Hedgehog", g.Title);
+        Assertions.assertEquals("Sonic the Hedgehog", g.GameTitle);
+        Assertions.assertEquals(1, g.ConsoleID);
+        Assertions.assertEquals("Mega Drive", g.ConsoleName);
+        Assertions.assertEquals("Mega Drive", g.Console);
+        Assertions.assertEquals(112, g.ForumTopicID);
+        Assertions.assertEquals(0, g.Flags);
+        Assertions.assertEquals("/Images/067895.png", g.GameIcon);
+        Assertions.assertEquals("/Images/067895.png", g.ImageIcon);
+        Assertions.assertEquals("/Images/054993.png", g.ImageTitle);
+        Assertions.assertEquals("/Images/000010.png", g.ImageIngame);
+        Assertions.assertEquals("/Images/051872.png", g.ImageBoxArt);
+        Assertions.assertEquals("", g.Publisher);
+        Assertions.assertEquals("", g.Developer);
+        Assertions.assertEquals("", g.Genre);
+        Assertions.assertEquals("1992-06-02 00:00:00", g.Released);
+        Assertions.assertEquals("day", g.ReleasedAtGranularity);
     }
 }

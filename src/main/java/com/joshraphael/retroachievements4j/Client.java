@@ -25,6 +25,14 @@ public class Client implements RetroAchievements {
         this.game = new Game(this);
     }
 
+    public String getUserAgent() {
+        return this.userAgent;
+    }
+
+    public String getWebToken() {
+        return this.webToken;
+    }
+
     public Request newRequestBuilder() {
         return new Request()
                 .host(this.host)

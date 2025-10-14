@@ -9,11 +9,18 @@ import java.net.URISyntaxException;
 
 class Game {
     private final Client c;
-    public Game(Client c) {
+    Game(Client c) {
         this.c = c;
     }
-    public GetGame GetGame(int gameID) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
-        Request r = this.c.newRequestBuilder().path("/API/API_GetGame.php");
+
+    GetGame GetGame(int gameID) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
+        String strGameID = Integer.toString(gameID);
+        Request r = this.c.newRequestBuilder()
+                .path("/API/API_GetGame.php")
+                .userAgent(this.c.getUserAgent())
+                .methodGET()
+                .Y(this.c.getWebToken())
+                .I(new String[]{strGameID});
         return this.c.Do(r, GetGame.class);
     }
 }

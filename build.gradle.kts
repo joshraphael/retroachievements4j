@@ -6,7 +6,6 @@ plugins {
 
 val projectVersion: String by project
 val projectGroup: String by project
-val projectDescription: String by project
 
 version = projectVersion
 group = projectGroup
