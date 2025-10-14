@@ -6,31 +6,27 @@ import com.joshraphael.retroachievements4j.models.game.GetGame;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 
 class ClientTest {
     public static MockWebServer server;
     public static RecordedRequest recordedRequest;
-    public static HttpClient mockHttpClient;
 
     @BeforeAll
     static void setUp() throws IOException, InterruptedException {
         server = new MockWebServer();
         server.start(0);
-        mockHttpClient = Mockito.mock(HttpClient.class);
     }
 
     @AfterAll
@@ -58,22 +54,28 @@ class ClientTest {
 
     @Test
     void testDoIOException() throws IOException, InterruptedException {
-        when(mockHttpClient.send(any(HttpRequest.class), eq(HttpResponse.BodyHandlers.ofString()))).thenThrow(new IOException("Simulated network error")); // Or any other desired exception
+        HttpClient mockHttpClient = EasyMock.createMock(HttpClient.class);
+        EasyMock.expect(mockHttpClient.send(EasyMock.anyObject(HttpRequest.class), EasyMock.eq(HttpResponse.BodyHandlers.ofString()))).andThrow(new IOException("Simulated network error"));
+        EasyMock.replay(mockHttpClient);
         Client c = new Client(mockHttpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
         Request r = c.newRequestBuilder();
         assertThrows(IOException.class, () -> {
             c.Do(r, String.class);
         });
+        EasyMock.verify(mockHttpClient);
     }
 
     @Test
     void testDoInterruptedException() throws IOException, InterruptedException {
-        when(mockHttpClient.send(any(HttpRequest.class), eq(HttpResponse.BodyHandlers.ofString()))).thenThrow(new InterruptedException("Client Shut down")); // Or any other desired exception
+        HttpClient mockHttpClient = EasyMock.createMock(HttpClient.class);
+        EasyMock.expect(mockHttpClient.send(EasyMock.anyObject(HttpRequest.class), EasyMock.eq(HttpResponse.BodyHandlers.ofString()))).andThrow(new InterruptedException("Client Shut down"));
+        EasyMock.replay(mockHttpClient);
         Client c = new Client(mockHttpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
         Request r = c.newRequestBuilder();
         assertThrows(InterruptedException.class, () -> {
             c.Do(r, String.class);
         });
+        EasyMock.verify(mockHttpClient);
     }
 
     @Test

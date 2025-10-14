@@ -1,6 +1,7 @@
 plugins {
     id("java-library")
     id("maven-publish")
+    id("jacoco")
 }
 
 val projectVersion: String by project
@@ -16,9 +17,9 @@ repositories {
 
 dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:5.2.1")
-    testImplementation("org.mockito:mockito-core:5.20.0")
     testImplementation(platform("org.junit:junit-bom:6.0.0"))
     testImplementation("org.junit.jupiter:junit-jupiter:6.0.0")
+    testImplementation("org.easymock:easymock:5.6.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.0.0")
     implementation("org.apache.httpcomponents.client5:httpclient5:5.3.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.20.0")
