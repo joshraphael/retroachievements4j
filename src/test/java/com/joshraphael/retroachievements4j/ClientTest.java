@@ -93,6 +93,7 @@ class ClientTest {
         HttpClient http = HttpClient.newHttpClient();
         Client c = new Client(http, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
         Request r = c.newRequestBuilder();
-        c.Do(r, GetGame.class);
+        GetGame g = c.Do(r, GetGame.class);
+        Assertions.assertEquals("some_game", g.Title);
     }
 }

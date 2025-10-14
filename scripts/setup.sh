@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export VERSION="v0.0.0"
+export VERSION="0.0.0"
 
 if [[ ${GITHUB_REF_NAME} != "" ]]; then
     VERSION="${GITHUB_REF_NAME#v}"

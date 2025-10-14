@@ -6,6 +6,7 @@ plugins {
 
 val projectVersion: String by project
 val projectGroup: String by project
+val projectDescription: String by project
 
 version = projectVersion
 group = projectGroup
@@ -21,7 +22,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:6.0.0")
     testImplementation("org.easymock:easymock:5.6.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.0.0")
-    implementation("org.apache.httpcomponents.client5:httpclient5:5.3.1")
+    implementation("org.apache.httpcomponents.core5:httpcore5:5.3.6")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.20.0")
 }
 
@@ -43,6 +44,22 @@ publishing {
             artifactId = rootProject.name
             version = projectVersion
             from(components["java"])
+            pom {
+                artifactId = project.name.lowercase()
+                name.set(project.name)
+                description.set(project.rootProject.file("README.md").readText())
+                this.url.set("https://github.com/joshraphael/retroachievements4j")
+
+                licenses {
+                    license {
+                        name.set("MIT")
+                        url.set("https://raw.githubusercontent.com/joshraphael/retroachievements4j/refs/heads/main/LICENSE")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/joshraphael/retroachievements4j")
+                }
+            }
         }
     }
     repositories {
