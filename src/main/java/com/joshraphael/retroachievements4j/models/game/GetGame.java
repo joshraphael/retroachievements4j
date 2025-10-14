@@ -3,38 +3,38 @@ package com.joshraphael.retroachievements4j.models.game;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GetGame {
-    @JsonProperty("Title")
+    @JsonProperty(value = "Title")
     public String Title;
-    @JsonProperty("GameTitle")
+    @JsonProperty(value = "GameTitle")
     public String GameTitle;
-    @JsonProperty("ConsoleID")
+    @JsonProperty(value = "ConsoleID")
     public int ConsoleID;
-    @JsonProperty("ConsoleName")
+    @JsonProperty(value = "ConsoleName")
     public String ConsoleName;
-    @JsonProperty("Console")
+    @JsonProperty(value = "Console")
     public String Console;
-    @JsonProperty("ForumTopicID")
+    @JsonProperty(value = "ForumTopicID")
     public int ForumTopicID;
-    @JsonProperty("Flags")
+    @JsonProperty(value = "Flags")
     public int Flags;
-    @JsonProperty("GameIcon")
+    @JsonProperty(value = "GameIcon")
     public String GameIcon;
-    @JsonProperty("ImageIcon")
+    @JsonProperty(value = "ImageIcon")
     public String ImageIcon;
-    @JsonProperty("ImageTitle")
+    @JsonProperty(value = "ImageTitle")
     public String ImageTitle;
-    @JsonProperty("ImageIngame")
+    @JsonProperty(value = "ImageIngame")
     public String ImageIngame;
-    @JsonProperty("ImageBoxArt")
+    @JsonProperty(value = "ImageBoxArt")
     public String ImageBoxArt;
-    @JsonProperty("Publisher")
+    @JsonProperty(value = "Publisher")
     public String Publisher;
-    @JsonProperty("Developer")
+    @JsonProperty(value = "Developer")
     public String Developer;
-    @JsonProperty("Genre")
+    @JsonProperty(value = "Genre")
     public String Genre;
-    @JsonProperty("Released")
+    @JsonProperty(value = "Released")
     public String Released;
-    @JsonProperty("ReleasedAtGranularity")
+    @JsonProperty(value = "ReleasedAtGranularity")
     public String ReleasedAtGranularity;
 }

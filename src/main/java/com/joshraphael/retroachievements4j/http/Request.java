@@ -73,6 +73,14 @@ public class Request {
         return this.queryParameter("i", String.join(",", values));
     }
 
+    public Request P(String value) {
+        return this.queryParameter("p", value);
+    }
+
+    public Request R(String value) {
+        return this.queryParameter("r", value);
+    }
+
     public Request U(String value) {
         return this.queryParameter("u", value);
     }

@@ -17,6 +17,9 @@ public class RequestTest {
                 .methodGET()
                 .userAgent("retroachievements4j/v0.0.0")
                 .bearerToken("secret_bearer")
+                .I(new String[]{"133", "42"})
+                .P("secret_password")
+                .R("login2")
                 .U("myUsername")
                 .Y("secret_token");
         assertEquals("http://localhost", request.getHost());
@@ -27,9 +30,15 @@ public class RequestTest {
         assertTrue(request.getHeaders().containsKey("Authorization"));
         assertEquals("retroachievements4j/v0.0.0", request.getHeaders().get("User-Agent"));
         assertEquals("Bearer secret_bearer", request.getHeaders().get("Authorization"));
-        assertEquals(2, request.getQueryParameters().size());
+        assertEquals(5, request.getQueryParameters().size());
+        assertTrue(request.getQueryParameters().containsKey("i"));
+        assertTrue(request.getQueryParameters().containsKey("p"));
+        assertTrue(request.getQueryParameters().containsKey("r"));
         assertTrue(request.getQueryParameters().containsKey("u"));
         assertTrue(request.getQueryParameters().containsKey("y"));
+        assertEquals("133,42", request.getQueryParameters().get("i"));
+        assertEquals("secret_password", request.getQueryParameters().get("p"));
+        assertEquals("login2", request.getQueryParameters().get("r"));
         assertEquals("myUsername", request.getQueryParameters().get("u"));
         assertEquals("secret_token", request.getQueryParameters().get("y"));
         Assertions.assertDoesNotThrow(() -> {

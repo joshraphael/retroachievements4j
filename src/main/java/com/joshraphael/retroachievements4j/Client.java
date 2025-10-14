@@ -3,6 +3,7 @@ package com.joshraphael.retroachievements4j;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joshraphael.retroachievements4j.http.BadHttpResponseException;
 import com.joshraphael.retroachievements4j.http.Request;
+import com.joshraphael.retroachievements4j.models.connect.Login;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ public class Client implements RetroAchievements {
     private final String userAgent;
     private final String webToken;
     private final Game game;
+    private final Connect connect;
 
     public Client(HttpClient client, String host, String userAgent, String webToken) {
         this.client = client;
@@ -23,6 +25,7 @@ public class Client implements RetroAchievements {
         this.userAgent = userAgent;
         this.webToken = webToken;
         this.game = new Game(this);
+        this.connect = new Connect(this);
     }
 
     public String getUserAgent() {
@@ -51,5 +54,9 @@ public class Client implements RetroAchievements {
 
     public GetGame GetGame(int gameID) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
         return this.game.GetGame(gameID);
+    }
+
+    public Login Login(String username, String password) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
+        return this.connect.Login(username, password);
     }
 }
