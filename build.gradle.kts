@@ -83,7 +83,9 @@ if (signAllPublications == "false") {
             }
         }
     }
+}
 
+if (signAllPublications == "true") {
     mavenPublishing {
         coordinates(projectGroup, project.name, projectVersion)
 
