@@ -1,5 +1,5 @@
 projectVersion = ${VERSION}
 projectGroup = com.joshraphael
-mavenCentralPublishing=true
-signAllPublications=true
-mavenCentralAutomaticPublishing=true
+mavenCentralPublishing=${MAVEN_PUBLISH}
+signAllPublications=${MAVEN_PUBLISH}
+mavenCentralAutomaticPublishing=${MAVEN_PUBLISH}
