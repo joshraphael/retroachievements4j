@@ -2,6 +2,7 @@ plugins {
     id("java-library")
     id("maven-publish")
     id("jacoco")
+    id("com.vanniktech.maven.publish") version "0.34.0"
 }
 
 val projectVersion: String by project
@@ -38,7 +39,7 @@ java {
 publishing {
     publications {
         // Ensure at least one publication is defined here
-        create<MavenPublication>("maven") {
+        create<MavenPublication>("github") {
             groupId = projectGroup
             artifactId = rootProject.name
             version = projectVersion
@@ -55,8 +56,17 @@ publishing {
                         url.set("https://raw.githubusercontent.com/joshraphael/retroachievements4j/refs/heads/main/LICENSE")
                     }
                 }
+                developers {
+                    developer {
+                        id.set("joshraphael")
+                        name.set("Joshua Raphael")
+                        url.set("https://github.com/joshraphael/")
+                    }
+                }
                 scm {
                     url.set("https://github.com/joshraphael/retroachievements4j")
+                    connection.set("scm:git:git://github.com/joshraphael/retroachievements4j.git")
+                    developerConnection.set("scm:git:ssh://git@github.com/joshraphael/retroachievements4j.git")
                 }
             }
         }
@@ -68,6 +78,35 @@ publishing {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
             }
+        }
+    }
+}
+
+mavenPublishing {
+    coordinates(projectGroup, project.name, projectVersion)
+
+    pom {
+        name.set(project.name)
+        description.set(project.rootProject.file("README.md").readText())
+        inceptionYear.set("2025")
+        url.set("https://github.com/joshraphael/retroachievements4j")
+        licenses {
+            license {
+                name.set("MIT")
+                url.set("https://raw.githubusercontent.com/joshraphael/retroachievements4j/refs/heads/main/LICENSE")
+            }
+        }
+        developers {
+            developer {
+                id.set("joshraphael")
+                name.set("Joshua Raphael")
+                url.set("https://github.com/joshraphael/")
+            }
+        }
+        scm {
+            url.set("https://github.com/joshraphael/retroachievements4j")
+            connection.set("scm:git:git://github.com/joshraphael/retroachievements4j.git")
+            developerConnection.set("scm:git:ssh://git@github.com/joshraphael/retroachievements4j.git")
         }
     }
 }

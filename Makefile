@@ -6,5 +6,8 @@ setup:
 test: setup
 	./gradlew test
 
-publish: setup
+publish-github: setup
 	./gradlew publish
+
+publish-central: setup
+	./gradlew publishToMavenCentral
