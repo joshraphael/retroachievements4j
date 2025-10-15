@@ -1,16 +1,13 @@
 SHELL := /bin/bash
 
-setup-central:
-	export MAVEN_PUBLISH=true && bash scripts/setup.sh
+setup:
+	bash scripts/setup.sh
 
-setup-github:
-	export MAVEN_PUBLISH=false && bash scripts/setup.sh
-
-test: setup-github
+test: setup
 	./gradlew test
 
-publish-github: setup-github
-	./gradlew publish
+publish-github: setup
+	./gradlew publishAllPublicationsTogithubPackagesRepository
 
-publish-central: setup-central
+publish-central: setup
 	./gradlew publishToMavenCentral
