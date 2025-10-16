@@ -2,39 +2,39 @@ package com.joshraphael.retroachievements4j.models.game;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class GetGame {
+public record GetGame (
     @JsonProperty(value = "Title")
-    public String Title;
+    String Title,
     @JsonProperty(value = "GameTitle")
-    public String GameTitle;
+    String GameTitle,
     @JsonProperty(value = "ConsoleID")
-    public int ConsoleID;
+    int ConsoleID,
     @JsonProperty(value = "ConsoleName")
-    public String ConsoleName;
+    String ConsoleName,
     @JsonProperty(value = "Console")
-    public String Console;
+    String Console,
     @JsonProperty(value = "ForumTopicID")
-    public int ForumTopicID;
+    int ForumTopicID,
     @JsonProperty(value = "Flags")
-    public int Flags;
+    int Flags,
     @JsonProperty(value = "GameIcon")
-    public String GameIcon;
+    String GameIcon,
     @JsonProperty(value = "ImageIcon")
-    public String ImageIcon;
+    String ImageIcon,
     @JsonProperty(value = "ImageTitle")
-    public String ImageTitle;
+    String ImageTitle,
     @JsonProperty(value = "ImageIngame")
-    public String ImageIngame;
+    String ImageIngame,
     @JsonProperty(value = "ImageBoxArt")
-    public String ImageBoxArt;
+    String ImageBoxArt,
     @JsonProperty(value = "Publisher")
-    public String Publisher;
+    String Publisher,
     @JsonProperty(value = "Developer")
-    public String Developer;
+    String Developer,
     @JsonProperty(value = "Genre")
-    public String Genre;
+    String Genre,
     @JsonProperty(value = "Released")
-    public String Released;
+    String Released,
     @JsonProperty(value = "ReleasedAtGranularity")
-    public String ReleasedAtGranularity;
-}
+    String ReleasedAtGranularity
+) {}

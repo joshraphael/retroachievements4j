@@ -69,6 +69,11 @@ public class Request {
         return this;
     }
 
+    public Request G(int value) {
+        String gameID = Integer.toString(value);
+        return this.queryParameter("g", gameID);
+    }
+
     public Request I(String[] values) {
         return this.queryParameter("i", String.join(",", values));
     }
@@ -79,6 +84,10 @@ public class Request {
 
     public Request R(String value) {
         return this.queryParameter("r", value);
+    }
+
+    public Request T(String value) {
+        return this.queryParameter("t", value);
     }
 
     public Request U(String value) {

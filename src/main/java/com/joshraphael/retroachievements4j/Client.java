@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joshraphael.retroachievements4j.http.BadHttpResponseException;
 import com.joshraphael.retroachievements4j.http.Request;
 import com.joshraphael.retroachievements4j.models.connect.Login;
+import com.joshraphael.retroachievements4j.models.connect.StartSession;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 
 import java.io.IOException;
@@ -58,5 +59,9 @@ public class Client implements RetroAchievements {
 
     public Login Login(String username, String password) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
         return this.connect.Login(username, password);
+    }
+
+    public StartSession StartSession(String username, String token, int gameID) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
+        return this.connect.StartSession(username, token, gameID);
     }
 }

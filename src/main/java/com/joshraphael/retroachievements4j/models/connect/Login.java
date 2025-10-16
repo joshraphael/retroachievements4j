@@ -2,21 +2,27 @@ package com.joshraphael.retroachievements4j.models.connect;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Login {
+public record Login (
     @JsonProperty(value = "Success", required = true)
-    public boolean Success;
+    boolean Success,
+    @JsonProperty(value = "Status")
+    int Status,
     @JsonProperty(value = "User")
-    public String User;
+    String User,
     @JsonProperty(value = "Token")
-    public String Token;
+    String Token,
     @JsonProperty(value = "Score")
-    public int Score;
+    int Score,
     @JsonProperty(value = "SoftcoreScore")
-    public int SoftcoreScore;
+    int SoftcoreScore,
     @JsonProperty(value = "Messages")
-    public int Messages;
+    int Messages,
     @JsonProperty(value = "Permissions")
-    public int Permissions;
+    int Permissions,
     @JsonProperty(value = "AccountType")
-    public String AccountType;
-}
+    String AccountType,
+    @JsonProperty(value = "Code")
+    String Code,
+    @JsonProperty(value = "Error")
+    String Error
+) {}

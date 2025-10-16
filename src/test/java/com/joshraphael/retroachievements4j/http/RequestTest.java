@@ -17,11 +17,13 @@ public class RequestTest {
                 .methodGET()
                 .userAgent("retroachievements4j/v0.0.0")
                 .bearerToken("secret_bearer")
+                .G(32)
                 .I(new String[]{"133", "42"})
                 .P("secret_password")
                 .R("login2")
+                .T("secret_token1")
                 .U("myUsername")
-                .Y("secret_token");
+                .Y("secret_token2");
         assertEquals("http://localhost", request.getHost());
         assertEquals("/api/v1/some_resource", request.getPath());
         assertEquals("GET", request.getMethod());
@@ -30,17 +32,21 @@ public class RequestTest {
         assertTrue(request.getHeaders().containsKey("Authorization"));
         assertEquals("retroachievements4j/v0.0.0", request.getHeaders().get("User-Agent"));
         assertEquals("Bearer secret_bearer", request.getHeaders().get("Authorization"));
-        assertEquals(5, request.getQueryParameters().size());
+        assertEquals(7, request.getQueryParameters().size());
+        assertTrue(request.getQueryParameters().containsKey("g"));
         assertTrue(request.getQueryParameters().containsKey("i"));
         assertTrue(request.getQueryParameters().containsKey("p"));
         assertTrue(request.getQueryParameters().containsKey("r"));
+        assertTrue(request.getQueryParameters().containsKey("t"));
         assertTrue(request.getQueryParameters().containsKey("u"));
         assertTrue(request.getQueryParameters().containsKey("y"));
+        assertEquals("32", request.getQueryParameters().get("g"));
         assertEquals("133,42", request.getQueryParameters().get("i"));
         assertEquals("secret_password", request.getQueryParameters().get("p"));
         assertEquals("login2", request.getQueryParameters().get("r"));
+        assertEquals("secret_token1", request.getQueryParameters().get("t"));
         assertEquals("myUsername", request.getQueryParameters().get("u"));
-        assertEquals("secret_token", request.getQueryParameters().get("y"));
+        assertEquals("secret_token2", request.getQueryParameters().get("y"));
         Assertions.assertDoesNotThrow(() -> {
             HttpRequest r = request.build();
             assertEquals("http", r.uri().getScheme());
