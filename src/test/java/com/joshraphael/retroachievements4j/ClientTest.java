@@ -6,23 +6,25 @@ import com.joshraphael.retroachievements4j.models.http.ApiResponse;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ClassicHttpRequest;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 class ClientTest {
     public static MockWebServer server;
 
     @BeforeEach
     void setUp() {
-        Assertions.assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() -> {
             server = new MockWebServer();
             server.start(0);
         });
@@ -30,24 +32,24 @@ class ClientTest {
 
     @AfterEach
     void tearDown() {
-        Assertions.assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() -> {
             server.shutdown();
         });
     }
     @Test
     void testNewRequestBuilder() {
-        HttpClient http = HttpClient.newHttpClient();
-        Client c = new Client(http, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        Client c = new Client(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
         Request r = c.newRequestBuilder();
-        Assertions.assertEquals("http://localhost:" + server.getPort(), r.getHost());
-        Assertions.assertEquals("retroachievements4j/v0.0.0", r.getHeaders().get("User-Agent"));
+        assertEquals("http://localhost:" + server.getPort(), r.getHost());
+        assertEquals("retroachievements4j/v0.0.0", r.getHeaders().get("User-Agent"));
     }
 
     @Test
     void testDoURISyntaxException() {
-        Assertions.assertThrows(URISyntaxException.class, () -> {
-            HttpClient http = HttpClient.newHttpClient();
-            Client c = new Client(http, "??>3@>@4>2:@#", "retroachievements4j/v0.0.0", "secret_token");
+        assertThrows(URISyntaxException.class, () -> {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            Client c = new Client(httpClient, "??>3@>@4>2:@#", "retroachievements4j/v0.0.0", "secret_token");
             Request r = c.newRequestBuilder();
             c.Do(r, String.class);
         });
@@ -55,22 +57,9 @@ class ClientTest {
 
     @Test
     void testDoIOException() {
-        Assertions.assertThrows(IOException.class, () -> {
-            HttpClient mockHttpClient = EasyMock.createMock(HttpClient.class);
-            EasyMock.expect(mockHttpClient.send(EasyMock.anyObject(HttpRequest.class), EasyMock.eq(HttpResponse.BodyHandlers.ofString()))).andThrow(new IOException("Simulated network error"));
-            EasyMock.replay(mockHttpClient);
-            Client c = new Client(mockHttpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
-            Request r = c.newRequestBuilder();
-            c.Do(r, String.class);
-            EasyMock.verify(mockHttpClient);
-        });
-    }
-
-    @Test
-    void testDoInterruptedException() {
-        Assertions.assertThrows(InterruptedException.class, () -> {
-            HttpClient mockHttpClient = EasyMock.createMock(HttpClient.class);
-            EasyMock.expect(mockHttpClient.send(EasyMock.anyObject(HttpRequest.class), EasyMock.eq(HttpResponse.BodyHandlers.ofString()))).andThrow(new InterruptedException("Client Shut down"));
+        assertThrows(IOException.class, () -> {
+            CloseableHttpClient mockHttpClient = EasyMock.createMock(CloseableHttpClient.class);
+            EasyMock.expect(mockHttpClient.execute(EasyMock.anyObject(ClassicHttpRequest.class), EasyMock.anyObject(HttpClientResponseHandler.class))).andThrow(new IOException("Simulated network error"));
             EasyMock.replay(mockHttpClient);
             Client c = new Client(mockHttpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
             Request r = c.newRequestBuilder();
@@ -81,7 +70,7 @@ class ClientTest {
 
     @Test
     void testDo() {
-        Assertions.assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() -> {
             server.enqueue(new MockResponse().setBody("""
             {
                 "Title": "Sonic the Hedgehog",
@@ -103,8 +92,8 @@ class ClientTest {
                 "ReleasedAtGranularity": "day"
             }
             """));
-            HttpClient http = HttpClient.newHttpClient();
-            Client c = new Client(http, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            Client c = new Client(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
             Request r = c.newRequestBuilder()
                     .methodGET()
                     .path("/api/v1/some_resource")
@@ -112,28 +101,28 @@ class ClientTest {
             ApiResponse<GetGame> g = c.Do(r, GetGame.class);
             RecordedRequest request = server.takeRequest();
             // Validate request
-            Assertions.assertEquals("GET", request.getMethod());
-            Assertions.assertEquals("/api/v1/some_resource?y=secret_token", request.getPath());
+            assertEquals("GET", request.getMethod());
+            assertEquals("/api/v1/some_resource?y=secret_token", request.getPath());
 
             // Validate response
-            Assertions.assertEquals(200, g.statusCode());
-            Assertions.assertEquals("Sonic the Hedgehog", g.resp().Title());
-            Assertions.assertEquals("Sonic the Hedgehog", g.resp().GameTitle());
-            Assertions.assertEquals(1, g.resp().ConsoleID());
-            Assertions.assertEquals("Mega Drive", g.resp().ConsoleName());
-            Assertions.assertEquals("Mega Drive", g.resp().Console());
-            Assertions.assertEquals(112, g.resp().ForumTopicID());
-            Assertions.assertEquals(0, g.resp().Flags());
-            Assertions.assertEquals("/Images/067895.png", g.resp().GameIcon());
-            Assertions.assertEquals("/Images/067895.png", g.resp().ImageIcon());
-            Assertions.assertEquals("/Images/054993.png", g.resp().ImageTitle());
-            Assertions.assertEquals("/Images/000010.png", g.resp().ImageIngame());
-            Assertions.assertEquals("/Images/051872.png", g.resp().ImageBoxArt());
-            Assertions.assertEquals("", g.resp().Publisher());
-            Assertions.assertEquals("", g.resp().Developer());
-            Assertions.assertEquals("", g.resp().Genre());
-            Assertions.assertEquals("1992-06-02 00:00:00", g.resp().Released());
-            Assertions.assertEquals("day", g.resp().ReleasedAtGranularity());
+            assertEquals(200, g.statusCode());
+            assertEquals("Sonic the Hedgehog", g.resp().Title());
+            assertEquals("Sonic the Hedgehog", g.resp().GameTitle());
+            assertEquals(1, g.resp().ConsoleID());
+            assertEquals("Mega Drive", g.resp().ConsoleName());
+            assertEquals("Mega Drive", g.resp().Console());
+            assertEquals(112, g.resp().ForumTopicID());
+            assertEquals(0, g.resp().Flags());
+            assertEquals("/Images/067895.png", g.resp().GameIcon());
+            assertEquals("/Images/067895.png", g.resp().ImageIcon());
+            assertEquals("/Images/054993.png", g.resp().ImageTitle());
+            assertEquals("/Images/000010.png", g.resp().ImageIngame());
+            assertEquals("/Images/051872.png", g.resp().ImageBoxArt());
+            assertEquals("", g.resp().Publisher());
+            assertEquals("", g.resp().Developer());
+            assertEquals("", g.resp().Genre());
+            assertEquals("1992-06-02 00:00:00", g.resp().Released());
+            assertEquals("day", g.resp().ReleasedAtGranularity());
         });
     }
 }

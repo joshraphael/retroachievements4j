@@ -6,21 +6,24 @@ import com.joshraphael.retroachievements4j.models.connect.Login;
 import com.joshraphael.retroachievements4j.models.connect.StartSession;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 import com.joshraphael.retroachievements4j.models.http.ApiResponse;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.http.HttpClient;
+
 import java.net.http.HttpResponse;
 
 public class Client implements RetroAchievements {
-    private final HttpClient client;
+    private final CloseableHttpClient client;
     private final String host;
     private final String userAgent;
     private final String webToken;
     private final Game game;
     private final Connect connect;
 
-    public Client(HttpClient client, String host, String userAgent, String webToken) {
+    public Client(CloseableHttpClient client, String host, String userAgent, String webToken) {
         this.client = client;
         this.host = host;
         this.userAgent = userAgent;
@@ -43,23 +46,25 @@ public class Client implements RetroAchievements {
                 .userAgent(this.userAgent);
     }
 
-    public <T> ApiResponse<T> Do(Request req, Class<T> t) throws IOException, URISyntaxException, InterruptedException {
-        HttpResponse<String> resp = this.client.send(req.build(), HttpResponse.BodyHandlers.ofString());
-        String body = resp.body();
-        ObjectMapper mapper = new ObjectMapper();
-        T respType = mapper.readValue(body, t);
-        return new ApiResponse<>(resp.statusCode(), respType);
+    public <T> ApiResponse<T> Do(Request req, Class<T> t) throws IOException, URISyntaxException {
+        HttpClientResponseHandler<ApiResponse<T>> responseHandler = response -> {
+            String body = new String(response.getEntity().getContent().readAllBytes());
+            ObjectMapper mapper = new ObjectMapper();
+            T respType = mapper.readValue(body, t);
+            return new ApiResponse<>(response.getCode(), respType);
+        };
+        return this.client.execute(req.build(), responseHandler);
     }
 
-    public ApiResponse<GetGame> GetGame(int gameID) throws IOException, URISyntaxException, InterruptedException {
+    public ApiResponse<GetGame> GetGame(int gameID) throws IOException, URISyntaxException {
         return this.game.GetGame(gameID);
     }
 
-    public ApiResponse<Login> Login(String username, String password) throws IOException, URISyntaxException, InterruptedException {
+    public ApiResponse<Login> Login(String username, String password) throws IOException, URISyntaxException {
         return this.connect.Login(username, password);
     }
 
-    public ApiResponse<StartSession> StartSession(String username, String token, int gameID) throws IOException, URISyntaxException, InterruptedException {
+    public ApiResponse<StartSession> StartSession(String username, String token, int gameID) throws IOException, URISyntaxException {
         return this.connect.StartSession(username, token, gameID);
     }
 }

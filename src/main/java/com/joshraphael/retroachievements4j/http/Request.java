@@ -6,6 +6,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.hc.core5.http.ClassicHttpRequest;
+import org.apache.hc.core5.http.ProtocolVersion;
+import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.net.URIBuilder;
 
 public class Request {
@@ -115,17 +119,15 @@ public class Request {
         return this;
     }
 
-    public HttpRequest build() throws URISyntaxException {
+    public ClassicHttpRequest build() throws URISyntaxException {
         URIBuilder builder = new URIBuilder(this.host);
         builder.setPath(this.path);
         for (String param : this.queryParameters.keySet()) {
             builder.addParameter(param, this.queryParameters.get(param));
         }
         URI uri = builder.build();
-        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder();
-        requestBuilder.uri(uri);
-        requestBuilder.version(HttpClient.Version.HTTP_1_1);
-        requestBuilder.method(this.method, HttpRequest.BodyPublishers.noBody());
+        ProtocolVersion http11 = new ProtocolVersion("HTTP", 1, 1);
+        ClassicRequestBuilder requestBuilder = ClassicRequestBuilder.create(this.method).setUri(uri).setVersion(http11);
         for (String header : this.headers.keySet()) {
             builder.addParameter(header, this.headers.get(header));
         }

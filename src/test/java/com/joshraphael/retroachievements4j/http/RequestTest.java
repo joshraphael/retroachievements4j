@@ -1,8 +1,7 @@
 package com.joshraphael.retroachievements4j.http;
 
-import org.junit.jupiter.api.Assertions;
+import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.junit.jupiter.api.Test;
-import java.net.http.HttpRequest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,11 +46,11 @@ public class RequestTest {
         assertEquals("secret_token1", request.getQueryParameters().get("t"));
         assertEquals("myUsername", request.getQueryParameters().get("u"));
         assertEquals("secret_token2", request.getQueryParameters().get("y"));
-        Assertions.assertDoesNotThrow(() -> {
-            HttpRequest r = request.build();
-            assertEquals("http", r.uri().getScheme());
-            assertEquals("localhost", r.uri().getHost());
-            assertEquals("/api/v1/some_resource", r.uri().getPath());
+        assertDoesNotThrow(() -> {
+            ClassicHttpRequest r = request.build();
+            assertEquals("http", r.getUri().getScheme());
+            assertEquals("localhost", r.getUri().getHost());
+            assertEquals("/api/v1/some_resource", r.getUri().getPath());
         });
     }
 }

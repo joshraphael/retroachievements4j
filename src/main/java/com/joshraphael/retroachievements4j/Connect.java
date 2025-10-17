@@ -14,7 +14,7 @@ class Connect {
         this.c = c;
     }
 
-    ApiResponse<Login> Login(String username, String password) throws IOException, URISyntaxException, InterruptedException {
+    ApiResponse<Login> Login(String username, String password) throws IOException, URISyntaxException {
         Request r = this.c.newRequestBuilder()
                 .path("/dorequest.php")
                 .userAgent(this.c.getUserAgent())
@@ -25,7 +25,7 @@ class Connect {
         return this.c.Do(r, Login.class);
     }
 
-    ApiResponse<StartSession> StartSession(String username, String token, int gameID) throws IOException, URISyntaxException, InterruptedException {
+    ApiResponse<StartSession> StartSession(String username, String token, int gameID) throws IOException, URISyntaxException {
         Request r = this.c.newRequestBuilder()
                 .path("/dorequest.php")
                 .userAgent(this.c.getUserAgent())

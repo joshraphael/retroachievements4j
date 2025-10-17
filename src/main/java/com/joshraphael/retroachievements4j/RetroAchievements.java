@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 public interface RetroAchievements {
-    ApiResponse<GetGame> GetGame(int gameID) throws IOException, URISyntaxException, InterruptedException;
-    ApiResponse<Login> Login(String username, String password) throws IOException, URISyntaxException, InterruptedException;
-    ApiResponse<StartSession> StartSession(String username, String token, int gameID) throws IOException, URISyntaxException, InterruptedException;
+    ApiResponse<GetGame> GetGame(int gameID) throws IOException, URISyntaxException;
+    ApiResponse<Login> Login(String username, String password) throws IOException, URISyntaxException;
+    ApiResponse<StartSession> StartSession(String username, String token, int gameID) throws IOException, URISyntaxException;
 }

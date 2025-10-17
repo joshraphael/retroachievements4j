@@ -13,7 +13,7 @@ class Game {
         this.c = c;
     }
 
-    ApiResponse<GetGame> GetGame(int gameID) throws IOException, URISyntaxException, InterruptedException {
+    ApiResponse<GetGame> GetGame(int gameID) throws IOException, URISyntaxException {
         String strGameID = Integer.toString(gameID);
         Request r = this.c.newRequestBuilder()
                 .path("/API/API_GetGame.php")
