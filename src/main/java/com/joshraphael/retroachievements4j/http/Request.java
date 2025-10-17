@@ -5,7 +5,9 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.core5.http.ClassicHttpRequest;
+import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.ProtocolVersion;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.net.URIBuilder;
@@ -16,6 +18,7 @@ public class Request {
     private String method;
     private final Map<String, String> queryParameters;
     private final Map<String, String> headers;
+    private final Map<String, String> formParts;
 
     public Request() {
         this.host = "";
@@ -23,6 +26,7 @@ public class Request {
         this.method = "GET";
         this.queryParameters = new HashMap<>();
         this.headers = new HashMap<>();
+        this.formParts = new HashMap<>();
     }
 
     public String getHost() {
@@ -117,6 +121,15 @@ public class Request {
         return this;
     }
 
+    public Map<String, String> getFormParts() {
+        return this.formParts;
+    }
+
+    public Request formPart(String key, String value) {
+        this.formParts.put(key, value);
+        return this;
+    }
+
     public ClassicHttpRequest build() throws URISyntaxException {
         URIBuilder builder = new URIBuilder(this.host);
         builder.setPath(this.path);
@@ -128,6 +141,13 @@ public class Request {
         ClassicRequestBuilder reqBuilder = ClassicRequestBuilder.create(this.method).setUri(uri).setVersion(http11);
         for (String header : this.headers.keySet()) {
             reqBuilder.addHeader(header, this.headers.get(header));
+        }
+        if(!this.formParts.isEmpty()) {
+            MultipartEntityBuilder multiPartForm = MultipartEntityBuilder.create();
+            for (String key : this.formParts.keySet()) {
+                multiPartForm.addTextBody(key, this.formParts.get(key));
+            }
+            reqBuilder.setEntity(multiPartForm.build());
         }
         return reqBuilder.build();
     }

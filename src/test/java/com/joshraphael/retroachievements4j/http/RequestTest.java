@@ -22,7 +22,8 @@ public class RequestTest {
                 .R("login2")
                 .T("secret_token1")
                 .U("myUsername")
-                .Y("secret_token2");
+                .Y("secret_token2")
+                .formPart("state", "good");
         assertEquals("http://localhost", request.getHost());
         assertEquals("/api/v1/some_resource", request.getPath());
         assertEquals("GET", request.getMethod());
@@ -39,6 +40,8 @@ public class RequestTest {
         assertTrue(request.getQueryParameters().containsKey("t"));
         assertTrue(request.getQueryParameters().containsKey("u"));
         assertTrue(request.getQueryParameters().containsKey("y"));
+        assertEquals(1, request.getFormParts().size());
+        assertEquals("good", request.getFormParts().get("state"));
         assertEquals("32", request.getQueryParameters().get("g"));
         assertEquals("133,42", request.getQueryParameters().get("i"));
         assertEquals("secret_password", request.getQueryParameters().get("p"));
