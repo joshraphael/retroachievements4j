@@ -2,6 +2,7 @@ package com.joshraphael.retroachievements4j;
 
 import com.joshraphael.retroachievements4j.http.Request;
 import com.joshraphael.retroachievements4j.models.connect.Login;
+import com.joshraphael.retroachievements4j.models.connect.Ping;
 import com.joshraphael.retroachievements4j.models.connect.StartSession;
 import com.joshraphael.retroachievements4j.models.http.ApiResponse;
 
@@ -35,5 +36,20 @@ class Connect {
                 .R("startsession")
                 .G(gameID);
         return this.c.Do(r, StartSession.class);
+    }
+
+    ApiResponse<Ping> Ping(String username, String token, int gameID, String richPresence) throws IOException, URISyntaxException {
+        Request r = this.c.newRequestBuilder()
+                .path("/dorequest.php")
+                .userAgent(this.c.getUserAgent())
+                .methodPOST()
+                .U(username)
+                .T(token)
+                .R("ping")
+                .G(gameID);
+        if(richPresence != null && !richPresence.isBlank()) {
+            r.formPart("m", richPresence);
+        }
+        return this.c.Do(r, Ping.class);
     }
 }

@@ -1,5 +1,6 @@
 package com.joshraphael.retroachievements4j;
 
+import com.joshraphael.retroachievements4j.models.connect.Ping;
 import com.joshraphael.retroachievements4j.models.connect.StartSession;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 import com.joshraphael.retroachievements4j.models.connect.Login;
@@ -12,4 +13,5 @@ public interface RetroAchievements {
     ApiResponse<GetGame> GetGame(int gameID) throws IOException, URISyntaxException;
     ApiResponse<Login> Login(String username, String password) throws IOException, URISyntaxException;
     ApiResponse<StartSession> StartSession(String username, String token, int gameID) throws IOException, URISyntaxException;
+    ApiResponse<Ping> Ping(String username, String token, int gameID, String richPresence) throws IOException, URISyntaxException;
 }

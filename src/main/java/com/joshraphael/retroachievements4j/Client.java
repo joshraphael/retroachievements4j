@@ -3,6 +3,7 @@ package com.joshraphael.retroachievements4j;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joshraphael.retroachievements4j.http.Request;
 import com.joshraphael.retroachievements4j.models.connect.Login;
+import com.joshraphael.retroachievements4j.models.connect.Ping;
 import com.joshraphael.retroachievements4j.models.connect.StartSession;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 import com.joshraphael.retroachievements4j.models.http.ApiResponse;
@@ -63,5 +64,9 @@ public class Client implements RetroAchievements {
 
     public ApiResponse<StartSession> StartSession(String username, String token, int gameID) throws IOException, URISyntaxException {
         return this.connect.StartSession(username, token, gameID);
+    }
+
+    public ApiResponse<Ping> Ping(String username, String token, int gameID, String richPresence) throws IOException, URISyntaxException {
+        return this.connect.Ping(username, token, gameID, richPresence);
     }
 }

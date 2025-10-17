@@ -1,6 +1,7 @@
 package com.joshraphael.retroachievements4j;
 
 import com.joshraphael.retroachievements4j.models.connect.Login;
+import com.joshraphael.retroachievements4j.models.connect.Ping;
 import com.joshraphael.retroachievements4j.models.connect.StartSession;
 import com.joshraphael.retroachievements4j.models.http.ApiResponse;
 import okhttp3.mockwebserver.MockResponse;
@@ -110,6 +111,31 @@ public class ConnectTest {
             assertNull(session.resp().Error());
             assertNull(session.resp().Code());
             assertEquals(0, session.resp().Status());
+        });
+    }
+
+    @Test
+    void testPing() {
+        assertDoesNotThrow(() -> {
+            server.enqueue(new MockResponse().setBody("""
+            {
+                "Success": true
+            }
+            """));
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            Client c = new Client(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
+
+            ApiResponse<Ping> ping = c.Ping("username", "4AotgGxjIH5iT1gz", 23, "Player is doing something");
+            RecordedRequest request = server.takeRequest();
+
+            // Validate request
+            assertEquals("POST", request.getMethod());
+            assertEquals("/dorequest.php?r=ping&t=4AotgGxjIH5iT1gz&u=username&g=23", request.getPath());
+            assertTrue(new String(request.getBody().readByteArray()).contains("Player is doing something"));
+
+            // Validate response
+            assertEquals(200, ping.statusCode());
+            assertTrue(ping.resp().Success());
         });
     }
 }
