@@ -7,13 +7,10 @@ import com.joshraphael.retroachievements4j.models.connect.StartSession;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 import com.joshraphael.retroachievements4j.models.http.ApiResponse;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-
-import java.net.http.HttpResponse;
 
 public class Client implements RetroAchievements {
     private final CloseableHttpClient client;

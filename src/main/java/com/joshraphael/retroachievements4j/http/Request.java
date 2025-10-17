@@ -2,8 +2,6 @@ package com.joshraphael.retroachievements4j.http;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -127,10 +125,10 @@ public class Request {
         }
         URI uri = builder.build();
         ProtocolVersion http11 = new ProtocolVersion("HTTP", 1, 1);
-        ClassicRequestBuilder requestBuilder = ClassicRequestBuilder.create(this.method).setUri(uri).setVersion(http11);
+        ClassicRequestBuilder reqBuilder = ClassicRequestBuilder.create(this.method).setUri(uri).setVersion(http11);
         for (String header : this.headers.keySet()) {
-            builder.addParameter(header, this.headers.get(header));
+            reqBuilder.addHeader(header, this.headers.get(header));
         }
-        return requestBuilder.build();
+        return reqBuilder.build();
     }
 }

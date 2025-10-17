@@ -20,7 +20,7 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:5.2.1")
     testImplementation("org.junit.jupiter:junit-jupiter:6.0.0")
     testImplementation("org.easymock:easymock:5.6.0")
-    testImplementation("org.slf4j:slf4j-simple:1.7.32")
+    testImplementation("org.slf4j:slf4j-simple:2.0.17")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.0.0")
     implementation("org.apache.httpcomponents.core5:httpcore5:5.3.6")
     implementation("org.apache.httpcomponents.client5:httpclient5:5.5.1")

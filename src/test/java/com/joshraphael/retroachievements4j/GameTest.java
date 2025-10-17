@@ -1,8 +1,5 @@
 package com.joshraphael.retroachievements4j;
 
-import com.joshraphael.retroachievements4j.http.Request;
-import com.joshraphael.retroachievements4j.models.connect.Login;
-import com.joshraphael.retroachievements4j.models.connect.StartSession;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 import com.joshraphael.retroachievements4j.models.http.ApiResponse;
 import okhttp3.mockwebserver.MockResponse;
