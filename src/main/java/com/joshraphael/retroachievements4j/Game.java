@@ -1,8 +1,8 @@
 package com.joshraphael.retroachievements4j;
 
-import com.joshraphael.retroachievements4j.http.BadHttpResponseException;
 import com.joshraphael.retroachievements4j.http.Request;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
+import com.joshraphael.retroachievements4j.models.http.ApiResponse;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -13,7 +13,7 @@ class Game {
         this.c = c;
     }
 
-    GetGame GetGame(int gameID) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
+    ApiResponse<GetGame> GetGame(int gameID) throws IOException, URISyntaxException, InterruptedException {
         String strGameID = Integer.toString(gameID);
         Request r = this.c.newRequestBuilder()
                 .path("/API/API_GetGame.php")

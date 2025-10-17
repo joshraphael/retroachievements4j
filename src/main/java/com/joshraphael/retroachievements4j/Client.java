@@ -1,11 +1,11 @@
 package com.joshraphael.retroachievements4j;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.joshraphael.retroachievements4j.http.BadHttpResponseException;
 import com.joshraphael.retroachievements4j.http.Request;
 import com.joshraphael.retroachievements4j.models.connect.Login;
 import com.joshraphael.retroachievements4j.models.connect.StartSession;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
+import com.joshraphael.retroachievements4j.models.http.ApiResponse;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -43,25 +43,23 @@ public class Client implements RetroAchievements {
                 .userAgent(this.userAgent);
     }
 
-    public <T> T Do(Request r, Class<T> t) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
-        HttpResponse<String> resp = this.client.send(r.build(), HttpResponse.BodyHandlers.ofString());
+    public <T> ApiResponse<T> Do(Request req, Class<T> t) throws IOException, URISyntaxException, InterruptedException {
+        HttpResponse<String> resp = this.client.send(req.build(), HttpResponse.BodyHandlers.ofString());
         String body = resp.body();
-        if(resp.statusCode() != 200) {
-            throw new BadHttpResponseException(resp.statusCode(), body);
-        }
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(body, t);
+        T respType = mapper.readValue(body, t);
+        return new ApiResponse<>(resp.statusCode(), respType);
     }
 
-    public GetGame GetGame(int gameID) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
+    public ApiResponse<GetGame> GetGame(int gameID) throws IOException, URISyntaxException, InterruptedException {
         return this.game.GetGame(gameID);
     }
 
-    public Login Login(String username, String password) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
+    public ApiResponse<Login> Login(String username, String password) throws IOException, URISyntaxException, InterruptedException {
         return this.connect.Login(username, password);
     }
 
-    public StartSession StartSession(String username, String token, int gameID) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
+    public ApiResponse<StartSession> StartSession(String username, String token, int gameID) throws IOException, URISyntaxException, InterruptedException {
         return this.connect.StartSession(username, token, gameID);
     }
 }

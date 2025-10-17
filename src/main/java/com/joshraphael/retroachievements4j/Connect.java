@@ -1,9 +1,9 @@
 package com.joshraphael.retroachievements4j;
 
-import com.joshraphael.retroachievements4j.http.BadHttpResponseException;
 import com.joshraphael.retroachievements4j.http.Request;
 import com.joshraphael.retroachievements4j.models.connect.Login;
 import com.joshraphael.retroachievements4j.models.connect.StartSession;
+import com.joshraphael.retroachievements4j.models.http.ApiResponse;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -14,7 +14,7 @@ class Connect {
         this.c = c;
     }
 
-    Login Login(String username, String password) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
+    ApiResponse<Login> Login(String username, String password) throws IOException, URISyntaxException, InterruptedException {
         Request r = this.c.newRequestBuilder()
                 .path("/dorequest.php")
                 .userAgent(this.c.getUserAgent())
@@ -25,7 +25,7 @@ class Connect {
         return this.c.Do(r, Login.class);
     }
 
-    StartSession StartSession(String username, String token, int gameID) throws IOException, URISyntaxException, InterruptedException, BadHttpResponseException {
+    ApiResponse<StartSession> StartSession(String username, String token, int gameID) throws IOException, URISyntaxException, InterruptedException {
         Request r = this.c.newRequestBuilder()
                 .path("/dorequest.php")
                 .userAgent(this.c.getUserAgent())

@@ -1,8 +1,8 @@
 package com.joshraphael.retroachievements4j;
 
-import com.joshraphael.retroachievements4j.http.BadHttpResponseException;
 import com.joshraphael.retroachievements4j.http.Request;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
+import com.joshraphael.retroachievements4j.models.http.ApiResponse;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -80,17 +80,6 @@ class ClientTest {
     }
 
     @Test
-    void testDoBadHttpResponseException() {
-        server.enqueue(new MockResponse().setResponseCode(404));
-        HttpClient http = HttpClient.newHttpClient();
-        Client c = new Client(http, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
-        Request r = c.newRequestBuilder();
-        Assertions.assertThrows(BadHttpResponseException.class, () -> {
-            c.Do(r, String.class);
-        });
-    }
-
-    @Test
     void testDo() {
         Assertions.assertDoesNotThrow(() -> {
             server.enqueue(new MockResponse().setBody("""
@@ -120,30 +109,31 @@ class ClientTest {
                     .methodGET()
                     .path("/api/v1/some_resource")
                     .Y(c.getWebToken());
-            GetGame g = c.Do(r, GetGame.class);
+            ApiResponse<GetGame> g = c.Do(r, GetGame.class);
             RecordedRequest request = server.takeRequest();
             // Validate request
             Assertions.assertEquals("GET", request.getMethod());
             Assertions.assertEquals("/api/v1/some_resource?y=secret_token", request.getPath());
 
             // Validate response
-            Assertions.assertEquals("Sonic the Hedgehog", g.Title());
-            Assertions.assertEquals("Sonic the Hedgehog", g.GameTitle());
-            Assertions.assertEquals(1, g.ConsoleID());
-            Assertions.assertEquals("Mega Drive", g.ConsoleName());
-            Assertions.assertEquals("Mega Drive", g.Console());
-            Assertions.assertEquals(112, g.ForumTopicID());
-            Assertions.assertEquals(0, g.Flags());
-            Assertions.assertEquals("/Images/067895.png", g.GameIcon());
-            Assertions.assertEquals("/Images/067895.png", g.ImageIcon());
-            Assertions.assertEquals("/Images/054993.png", g.ImageTitle());
-            Assertions.assertEquals("/Images/000010.png", g.ImageIngame());
-            Assertions.assertEquals("/Images/051872.png", g.ImageBoxArt());
-            Assertions.assertEquals("", g.Publisher());
-            Assertions.assertEquals("", g.Developer());
-            Assertions.assertEquals("", g.Genre());
-            Assertions.assertEquals("1992-06-02 00:00:00", g.Released());
-            Assertions.assertEquals("day", g.ReleasedAtGranularity());
+            Assertions.assertEquals(200, g.statusCode());
+            Assertions.assertEquals("Sonic the Hedgehog", g.resp().Title());
+            Assertions.assertEquals("Sonic the Hedgehog", g.resp().GameTitle());
+            Assertions.assertEquals(1, g.resp().ConsoleID());
+            Assertions.assertEquals("Mega Drive", g.resp().ConsoleName());
+            Assertions.assertEquals("Mega Drive", g.resp().Console());
+            Assertions.assertEquals(112, g.resp().ForumTopicID());
+            Assertions.assertEquals(0, g.resp().Flags());
+            Assertions.assertEquals("/Images/067895.png", g.resp().GameIcon());
+            Assertions.assertEquals("/Images/067895.png", g.resp().ImageIcon());
+            Assertions.assertEquals("/Images/054993.png", g.resp().ImageTitle());
+            Assertions.assertEquals("/Images/000010.png", g.resp().ImageIngame());
+            Assertions.assertEquals("/Images/051872.png", g.resp().ImageBoxArt());
+            Assertions.assertEquals("", g.resp().Publisher());
+            Assertions.assertEquals("", g.resp().Developer());
+            Assertions.assertEquals("", g.resp().Genre());
+            Assertions.assertEquals("1992-06-02 00:00:00", g.resp().Released());
+            Assertions.assertEquals("day", g.resp().ReleasedAtGranularity());
         });
     }
 }
