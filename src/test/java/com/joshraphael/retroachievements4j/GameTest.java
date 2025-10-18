@@ -56,8 +56,8 @@ public class GameTest {
             }
             """));
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            Client c = new Client(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
-            ApiResponse<GetGame> getGame = c.GetGame(123);
+            RetroAchievementsClient c = new RetroAchievementsClient(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0");
+            ApiResponse<GetGame> getGame = c.GetGame("secret_token", 123);
             RecordedRequest request = server.takeRequest();
             // Validate request
             assertEquals("GET", request.getMethod());

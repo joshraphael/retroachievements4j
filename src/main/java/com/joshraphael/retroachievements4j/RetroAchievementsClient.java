@@ -13,29 +13,23 @@ import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class Client implements RetroAchievements {
+public class RetroAchievementsClient implements IRetroAchievements4j {
     private final CloseableHttpClient client;
     private final String host;
     private final String userAgent;
-    private final String webToken;
     private final Game game;
     private final Connect connect;
 
-    public Client(CloseableHttpClient client, String host, String userAgent, String webToken) {
+    public RetroAchievementsClient(CloseableHttpClient client, String host, String userAgent) {
         this.client = client;
         this.host = host;
         this.userAgent = userAgent;
-        this.webToken = webToken;
         this.game = new Game(this);
         this.connect = new Connect(this);
     }
 
     public String getUserAgent() {
         return this.userAgent;
-    }
-
-    public String getWebToken() {
-        return this.webToken;
     }
 
     public Request newRequestBuilder() {
@@ -54,8 +48,8 @@ public class Client implements RetroAchievements {
         return this.client.execute(req.build(), responseHandler);
     }
 
-    public ApiResponse<GetGame> GetGame(int gameID) throws IOException, URISyntaxException {
-        return this.game.GetGame(gameID);
+    public ApiResponse<GetGame> GetGame(String webToken, int gameID) throws IOException, URISyntaxException {
+        return this.game.GetGame(webToken, gameID);
     }
 
     public ApiResponse<Login> Login(String username, String password) throws IOException, URISyntaxException {

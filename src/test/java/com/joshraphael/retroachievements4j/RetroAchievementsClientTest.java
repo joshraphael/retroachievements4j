@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-class ClientTest {
+class RetroAchievementsClientTest {
     public static MockWebServer server;
 
     @BeforeEach
@@ -39,7 +39,7 @@ class ClientTest {
     @Test
     void testNewRequestBuilder() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        Client c = new Client(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
+        RetroAchievementsClient c = new RetroAchievementsClient(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0");
         Request r = c.newRequestBuilder();
         assertEquals("http://localhost:" + server.getPort(), r.getHost());
         assertEquals("retroachievements4j/v0.0.0", r.getHeaders().get("User-Agent"));
@@ -49,7 +49,7 @@ class ClientTest {
     void testDoURISyntaxException() {
         assertThrows(URISyntaxException.class, () -> {
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            Client c = new Client(httpClient, "??>3@>@4>2:@#", "retroachievements4j/v0.0.0", "secret_token");
+            RetroAchievementsClient c = new RetroAchievementsClient(httpClient, "??>3@>@4>2:@#", "retroachievements4j/v0.0.0");
             Request r = c.newRequestBuilder();
             c.Do(r, String.class);
         });
@@ -61,7 +61,7 @@ class ClientTest {
             CloseableHttpClient mockHttpClient = EasyMock.createMock(CloseableHttpClient.class);
             EasyMock.expect(mockHttpClient.execute(EasyMock.anyObject(ClassicHttpRequest.class), EasyMock.anyObject(HttpClientResponseHandler.class))).andThrow(new IOException("Simulated network error"));
             EasyMock.replay(mockHttpClient);
-            Client c = new Client(mockHttpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
+            RetroAchievementsClient c = new RetroAchievementsClient(mockHttpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0");
             Request r = c.newRequestBuilder();
             c.Do(r, String.class);
             EasyMock.verify(mockHttpClient);
@@ -93,11 +93,11 @@ class ClientTest {
             }
             """));
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            Client c = new Client(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
+            RetroAchievementsClient c = new RetroAchievementsClient(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0");
             Request r = c.newRequestBuilder()
                     .methodGET()
                     .path("/api/v1/some_resource")
-                    .Y(c.getWebToken());
+                    .Y("secret_token");
             ApiResponse<GetGame> g = c.Do(r, GetGame.class);
             RecordedRequest request = server.takeRequest();
             // Validate request

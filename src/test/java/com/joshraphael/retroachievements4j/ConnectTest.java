@@ -49,7 +49,7 @@ public class ConnectTest {
             }
             """));
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            Client c = new Client(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
+            RetroAchievementsClient c = new RetroAchievementsClient(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0");
 
             ApiResponse<Login> login = c.Login("username", "password");
             RecordedRequest request = server.takeRequest();
@@ -90,7 +90,7 @@ public class ConnectTest {
             }
             """));
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            Client c = new Client(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
+            RetroAchievementsClient c = new RetroAchievementsClient(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0");
 
             ApiResponse<StartSession> session = c.StartSession("username", "4AotgGxjIH5iT1gz", 23);
             RecordedRequest request = server.takeRequest();
@@ -123,7 +123,7 @@ public class ConnectTest {
             }
             """));
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            Client c = new Client(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0", "secret_token");
+            RetroAchievementsClient c = new RetroAchievementsClient(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0");
 
             ApiResponse<Ping> ping = c.Ping("username", "4AotgGxjIH5iT1gz", 23, "Player is doing something");
             RecordedRequest request = server.takeRequest();

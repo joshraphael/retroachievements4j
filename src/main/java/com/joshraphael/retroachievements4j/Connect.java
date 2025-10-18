@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 class Connect {
-    private final Client c;
-    Connect(Client c) {
+    private final RetroAchievementsClient c;
+    Connect(RetroAchievementsClient c) {
         this.c = c;
     }
 

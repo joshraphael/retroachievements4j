@@ -8,18 +8,18 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 class Game {
-    private final Client c;
-    Game(Client c) {
+    private final RetroAchievementsClient c;
+    Game(RetroAchievementsClient c) {
         this.c = c;
     }
 
-    ApiResponse<GetGame> GetGame(int gameID) throws IOException, URISyntaxException {
+    ApiResponse<GetGame> GetGame(String webToken, int gameID) throws IOException, URISyntaxException {
         String strGameID = Integer.toString(gameID);
         Request r = this.c.newRequestBuilder()
                 .path("/API/API_GetGame.php")
                 .userAgent(this.c.getUserAgent())
                 .methodGET()
-                .Y(this.c.getWebToken())
+                .Y(webToken)
                 .I(new String[]{strGameID});
         return this.c.Do(r, GetGame.class);
     }
