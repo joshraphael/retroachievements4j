@@ -51,7 +51,7 @@ mavenPublishing {
 
     pom {
         name.set(project.name)
-        description.set(project.rootProject.file("README.md").readText())
+        description.set("A Java library that lets you get achievement, user, game data and more from RetroAchievements.")
         inceptionYear.set("2025")
         url.set("https://github.com/joshraphael/retroachievements4j")
         licenses {
@@ -64,7 +64,7 @@ mavenPublishing {
             developer {
                 id.set("joshraphael")
                 name.set("Joshua Raphael")
-                url.set("https://github.com/joshraphael/")
+                url.set("https://github.com/joshraphael")
             }
         }
         scm {
