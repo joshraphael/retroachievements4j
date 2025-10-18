@@ -26,7 +26,7 @@ class Connect {
         return this.c.Do(r, Login.class);
     }
 
-    ApiResponse<StartSession> StartSession(String username, String token, int gameID) throws IOException, URISyntaxException {
+    ApiResponse<StartSession> StartSession(String username, String token, int gameID, String targetUsername) throws IOException, URISyntaxException {
         Request r = this.c.newRequestBuilder()
                 .path("/dorequest.php")
                 .userAgent(this.c.getUserAgent())
@@ -35,10 +35,13 @@ class Connect {
                 .T(token)
                 .R("startsession")
                 .G(gameID);
+        if(targetUsername != null && !targetUsername.isBlank()) {
+            r = r.K(targetUsername);
+        }
         return this.c.Do(r, StartSession.class);
     }
 
-    ApiResponse<Ping> Ping(String username, String token, int gameID, String richPresence) throws IOException, URISyntaxException {
+    ApiResponse<Ping> Ping(String username, String token, int gameID, String targetUsername, String richPresence) throws IOException, URISyntaxException {
         Request r = this.c.newRequestBuilder()
                 .path("/dorequest.php")
                 .userAgent(this.c.getUserAgent())
@@ -47,8 +50,11 @@ class Connect {
                 .T(token)
                 .R("ping")
                 .G(gameID);
+        if(targetUsername != null && !targetUsername.isBlank()) {
+            r = r.K(targetUsername);
+        }
         if(richPresence != null && !richPresence.isBlank()) {
-            r.formPart("m", richPresence);
+            r = r.formPart("m", richPresence);
         }
         return this.c.Do(r, Ping.class);
     }

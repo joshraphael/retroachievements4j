@@ -92,12 +92,12 @@ public class ConnectTest {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             RetroAchievementsClient c = new RetroAchievementsClient(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0");
 
-            ApiResponse<StartSession> session = c.StartSession("username", "4AotgGxjIH5iT1gz", 23);
+            ApiResponse<StartSession> session = c.StartSession("username", "4AotgGxjIH5iT1gz", 23, "targetUser");
             RecordedRequest request = server.takeRequest();
 
             // Validate request
             assertEquals("POST", request.getMethod());
-            assertEquals("/dorequest.php?r=startsession&t=4AotgGxjIH5iT1gz&u=username&g=23", request.getPath());
+            assertEquals("/dorequest.php?r=startsession&t=4AotgGxjIH5iT1gz&u=username&g=23&k=targetUser", request.getPath());
 
             // Validate response
             assertEquals(200, session.statusCode());
@@ -125,12 +125,12 @@ public class ConnectTest {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             RetroAchievementsClient c = new RetroAchievementsClient(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0");
 
-            ApiResponse<Ping> ping = c.Ping("username", "4AotgGxjIH5iT1gz", 23, "Player is doing something");
+            ApiResponse<Ping> ping = c.Ping("username", "4AotgGxjIH5iT1gz", 23, "targetUser", "Player is doing something");
             RecordedRequest request = server.takeRequest();
 
             // Validate request
             assertEquals("POST", request.getMethod());
-            assertEquals("/dorequest.php?r=ping&t=4AotgGxjIH5iT1gz&u=username&g=23", request.getPath());
+            assertEquals("/dorequest.php?r=ping&t=4AotgGxjIH5iT1gz&u=username&g=23&k=targetUser", request.getPath());
             assertTrue(new String(request.getBody().readByteArray()).contains("Player is doing something"));
 
             // Validate response

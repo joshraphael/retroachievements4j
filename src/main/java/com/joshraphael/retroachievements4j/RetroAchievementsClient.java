@@ -56,11 +56,11 @@ public class RetroAchievementsClient implements IRetroAchievements4j {
         return this.connect.Login(username, password);
     }
 
-    public ApiResponse<StartSession> StartSession(String username, String token, int gameID) throws IOException, URISyntaxException {
-        return this.connect.StartSession(username, token, gameID);
+    public ApiResponse<StartSession> StartSession(String username, String token, int gameID, String targetUsername) throws IOException, URISyntaxException {
+        return this.connect.StartSession(username, token, gameID, targetUsername);
     }
 
-    public ApiResponse<Ping> Ping(String username, String token, int gameID, String richPresence) throws IOException, URISyntaxException {
-        return this.connect.Ping(username, token, gameID, richPresence);
+    public ApiResponse<Ping> Ping(String username, String token, int gameID, String targetUsername, String richPresence) throws IOException, URISyntaxException {
+        return this.connect.Ping(username, token, gameID, targetUsername, richPresence);
     }
 }
