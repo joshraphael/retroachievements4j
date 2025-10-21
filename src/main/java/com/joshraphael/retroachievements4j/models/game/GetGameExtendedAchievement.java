@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record GetGameExtendedAchievement(
         @JsonProperty(value = "ID")
-        int ID,
+        Integer ID,
         @JsonProperty(value = "NumAwarded")
-        int NumAwarded,
+        Integer NumAwarded,
         @JsonProperty(value = "NumAwardedHardcore")
-        int NumAwardedHardcore,
+        Integer NumAwardedHardcore,
         @JsonProperty(value = "Title")
         String Title,
         @JsonProperty(value = "Description")
         String Description,
         @JsonProperty(value = "Points")
-        int Points,
+        Integer Points,
         @JsonProperty(value = "TrueRatio")
-        int TrueRatio,
+        Integer TrueRatio,
         @JsonProperty(value = "Author")
         String Author,
         @JsonProperty(value = "AuthorULID")
@@ -28,7 +28,7 @@ public record GetGameExtendedAchievement(
         @JsonProperty(value = "BadgeName")
         String BadgeName,
         @JsonProperty(value = "DisplayOrder")
-        int DisplayOrder,
+        Integer DisplayOrder,
         @JsonProperty(value = "MemAddr")
         String MemAddr,
         @JsonProperty(value = "type")

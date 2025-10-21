@@ -32,9 +32,7 @@ class RetroAchievementsClientTest {
 
     @AfterEach
     void tearDown() {
-        assertDoesNotThrow(() -> {
-            server.shutdown();
-        });
+        assertDoesNotThrow(() -> server.shutdown());
     }
     @Test
     void testNewRequestBuilder() {

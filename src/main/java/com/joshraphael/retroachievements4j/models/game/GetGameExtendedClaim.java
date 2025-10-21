@@ -8,9 +8,9 @@ public record GetGameExtendedClaim(
         @JsonProperty(value = "ULID")
         String ULID,
         @JsonProperty(value = "SetType")
-        int SetType,
+        Integer SetType,
         @JsonProperty(value = "ClaimType")
-        int ClaimType,
+        Integer ClaimType,
         @JsonProperty(value = "Created")
         String Created,
         @JsonProperty(value = "Expiration")

@@ -8,15 +8,15 @@ public record GetGame (
     @JsonProperty(value = "GameTitle")
     String GameTitle,
     @JsonProperty(value = "ConsoleID")
-    int ConsoleID,
+    Integer ConsoleID,
     @JsonProperty(value = "ConsoleName")
     String ConsoleName,
     @JsonProperty(value = "Console")
     String Console,
     @JsonProperty(value = "ForumTopicID")
-    int ForumTopicID,
+    Integer ForumTopicID,
     @JsonProperty(value = "Flags")
-    int Flags,
+    Integer Flags,
     @JsonProperty(value = "GameIcon")
     String GameIcon,
     @JsonProperty(value = "ImageIcon")
