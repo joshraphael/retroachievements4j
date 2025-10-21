@@ -16,6 +16,7 @@ public class RequestTest {
                 .methodGET()
                 .userAgent("retroachievements4j/v0.0.0")
                 .bearerToken("secret_bearer")
+                .F(true)
                 .G(32)
                 .I(new String[]{"133", "42"})
                 .K("targetUsername")
@@ -33,7 +34,8 @@ public class RequestTest {
         assertTrue(request.getHeaders().containsKey("Authorization"));
         assertEquals("retroachievements4j/v0.0.0", request.getHeaders().get("User-Agent"));
         assertEquals("Bearer secret_bearer", request.getHeaders().get("Authorization"));
-        assertEquals(8, request.getQueryParameters().size());
+        assertEquals(9, request.getQueryParameters().size());
+        assertTrue(request.getQueryParameters().containsKey("f"));
         assertTrue(request.getQueryParameters().containsKey("g"));
         assertTrue(request.getQueryParameters().containsKey("i"));
         assertTrue(request.getQueryParameters().containsKey("k"));
@@ -44,6 +46,7 @@ public class RequestTest {
         assertTrue(request.getQueryParameters().containsKey("y"));
         assertEquals(1, request.getFormParts().size());
         assertEquals("good", request.getFormParts().get("state"));
+        assertEquals("5", request.getQueryParameters().get("f"));
         assertEquals("32", request.getQueryParameters().get("g"));
         assertEquals("133,42", request.getQueryParameters().get("i"));
         assertEquals("targetUsername", request.getQueryParameters().get("k"));
