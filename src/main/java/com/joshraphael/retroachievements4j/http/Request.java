@@ -75,6 +75,15 @@ public class Request {
         return this;
     }
 
+    public Request F(boolean value) {
+        int val = 3;
+        if(value) {
+            val = 5;
+        }
+        String unofficial = Integer.toString(val);
+        return this.queryParameter("f", unofficial);
+    }
+
     public Request G(int value) {
         String gameID = Integer.toString(value);
         return this.queryParameter("g", gameID);

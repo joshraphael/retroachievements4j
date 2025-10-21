@@ -1,6 +1,8 @@
 package com.joshraphael.retroachievements4j;
 
 import com.joshraphael.retroachievements4j.models.game.GetGame;
+import com.joshraphael.retroachievements4j.models.game.GetGameExtended;
+import com.joshraphael.retroachievements4j.models.game.GetGameExtendedAchievement;
 import com.joshraphael.retroachievements4j.models.http.ApiResponse;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -26,13 +28,11 @@ public class GameTest {
 
     @AfterEach
     void tearDown() {
-        assertDoesNotThrow(() -> {
-            server.shutdown();
-        });
+        assertDoesNotThrow(server::shutdown);
     }
 
     @Test
-    void testStartSession() {
+    void testGetGame() {
         assertDoesNotThrow(() -> {
             server.enqueue(new MockResponse().setBody("""
             {
@@ -82,6 +82,114 @@ public class GameTest {
             assertEquals("", getGame.resp().Genre());
             assertEquals("1992-06-02 00:00:00", getGame.resp().Released());
             assertEquals("day", getGame.resp().ReleasedAtGranularity());
+        });
+    }
+
+    @Test
+    void testGetGameExtended() {
+        assertDoesNotThrow(() -> {
+            server.enqueue(new MockResponse().setBody("""
+            {
+                "ID": 1,
+                "Title": "Sonic the Hedgehog",
+                "ConsoleID": 1,
+                "ForumTopicID": 112,
+                "Flags": null,
+                "ImageIcon": "/Images/067895.png",
+                "ImageTitle": "/Images/054993.png",
+                "ImageIngame": "/Images/000010.png",
+                "ImageBoxArt": "/Images/051872.png",
+                "Publisher": "",
+                "Developer": "",
+                "Genre": "",
+                "Released": "1992-06-02",
+                "ReleasedAtGranularity": "day",
+                "IsFinal": false,
+                "RichPresencePatch": "cce60593880d25c97797446ed33eaffb",
+                "GuideURL": null,
+                "Updated": "2023-12-27T13:51:14.000000Z",
+                "ConsoleName": "Mega Drive",
+                "ParentGameID": null,
+                "NumDistinctPlayers": 27080,
+                "NumAchievements": 23,
+                "Achievements": {
+                  "9": {
+                    "ID": 9,
+                    "NumAwarded": 24273,
+                    "NumAwardedHardcore": 10831,
+                    "Title": "That Was Easy",
+                    "Description": "Complete the first act in Green Hill Zone",
+                    "Points": 3,
+                    "TrueRatio": 3,
+                    "Author": "Scott",
+                    "AuthorULID": "00003EMFWR7XB8SDPEHB3K56ZQ",
+                    "DateModified": "2023-08-08 00:36:59",
+                    "DateCreated": "2012-11-02 00:03:12",
+                    "BadgeName": "250336",
+                    "DisplayOrder": 1,
+                    "MemAddr": "22c9d5e2cd7571df18a1a1b43dfe1fea",
+                    "type": "progression"
+                  }
+                },
+                "Claims": [],
+                "NumDistinctPlayersCasual": 27080,
+                "NumDistinctPlayersHardcore": 27080
+            }
+            """));
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            RetroAchievementsClient c = new RetroAchievementsClient(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0");
+            ApiResponse<GetGameExtended> getGameExtended = c.GetGameExtended("secret_token", 123, true);
+            RecordedRequest request = server.takeRequest();
+            // Validate request
+            assertEquals("GET", request.getMethod());
+            assertEquals("/API/API_GetGameExtended.php?f=5&y=secret_token&i=123", request.getPath());
+
+            // Validate response
+            assertEquals(200, getGameExtended.statusCode());
+            assertEquals(1, getGameExtended.resp().ID());
+            assertEquals("Sonic the Hedgehog", getGameExtended.resp().Title());
+            assertEquals(1, getGameExtended.resp().ConsoleID());
+            assertEquals(112, getGameExtended.resp().ForumTopicID());
+            assertNull(getGameExtended.resp().Flags());
+            assertEquals("/Images/067895.png", getGameExtended.resp().ImageIcon());
+            assertEquals("/Images/054993.png", getGameExtended.resp().ImageTitle());
+            assertEquals("/Images/000010.png", getGameExtended.resp().ImageIngame());
+            assertEquals("/Images/051872.png", getGameExtended.resp().ImageBoxArt());
+            assertEquals("", getGameExtended.resp().Publisher());
+            assertEquals("", getGameExtended.resp().Developer());
+            assertEquals("", getGameExtended.resp().Genre());
+            assertEquals("1992-06-02", getGameExtended.resp().Released());
+            assertEquals("day", getGameExtended.resp().ReleasedAtGranularity());
+            assertFalse(getGameExtended.resp().IsFinal());
+            assertEquals("cce60593880d25c97797446ed33eaffb", getGameExtended.resp().RichPresencePatch());
+            assertNull(getGameExtended.resp().GuideURL());
+            assertEquals("2023-12-27T13:51:14.000000Z", getGameExtended.resp().Updated());
+            assertEquals("Mega Drive", getGameExtended.resp().ConsoleName());
+            assertNull(getGameExtended.resp().ParentGameID());
+            assertEquals(27080, getGameExtended.resp().NumDistinctPlayers());
+            assertEquals(23, getGameExtended.resp().NumAchievements());
+            assertNotNull(getGameExtended.resp().Achievements());
+            assertEquals(1, getGameExtended.resp().Achievements().size());
+            assertNotNull(getGameExtended.resp().Achievements().get("9"));
+            GetGameExtendedAchievement ach = getGameExtended.resp().Achievements().get("9");
+            assertEquals(9, ach.ID());
+            assertEquals(24273, ach.NumAwarded());
+            assertEquals(10831, ach.NumAwardedHardcore());
+            assertEquals("That Was Easy", ach.Title());
+            assertEquals("Complete the first act in Green Hill Zone", ach.Description());
+            assertEquals(3, ach.Points());
+            assertEquals(3, ach.TrueRatio());
+            assertEquals("Scott", ach.Author());
+            assertEquals("00003EMFWR7XB8SDPEHB3K56ZQ", ach.AuthorULID());
+            assertEquals("2023-08-08 00:36:59", ach.DateModified());
+            assertEquals("2012-11-02 00:03:12", ach.DateCreated());
+            assertEquals("250336", ach.BadgeName());
+            assertEquals(1, ach.DisplayOrder());
+            assertEquals("22c9d5e2cd7571df18a1a1b43dfe1fea", ach.MemAddr());
+            assertEquals("progression", ach.Type());
+            assertEquals(0, getGameExtended.resp().Claims().size());
+            assertEquals(27080, getGameExtended.resp().NumDistinctPlayers());
+            assertEquals(27080, getGameExtended.resp().NumDistinctPlayersHardcore());
         });
     }
 }

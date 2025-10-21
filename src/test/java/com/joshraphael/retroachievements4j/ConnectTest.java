@@ -28,9 +28,7 @@ public class ConnectTest {
 
     @AfterEach
     void tearDown() {
-        assertDoesNotThrow(() -> {
-            server.shutdown();
-        });
+        assertDoesNotThrow(() -> server.shutdown());
     }
 
     @Test
