@@ -15,7 +15,7 @@
 [![GitHub Tag](https://img.shields.io/github/v/tag/joshraphael/retroachievements4j)](https://github.com/joshraphael/retroachievements4j/tags)
 [![GitHub repo size](https://img.shields.io/github/repo-size/joshraphael/retroachievements4j)](https://github.com/joshraphael/retroachievements4j/archive/main.zip)
 
-Available on the [Maven Central](https://central.sonatype.com/artifact/com.joshraphael/retroachievements4j) and [Github](https://github.com/joshraphael/retroachievements4j/packages/2698688)
+Available on [Maven Central](https://central.sonatype.com/artifact/com.joshraphael/retroachievements4j) and [Github](https://github.com/joshraphael/retroachievements4j/packages/2698688)
 
 ## Installation
 
@@ -43,7 +43,7 @@ For convenience, the API docs can be found in the tables below
 
 <h3>Game</h3>
 
-| Function            | Description                         |Links|
-|---------------------|-------------------------------------|-|
-| `GetGame()`         | Get basic metadata about a game.    |[docs](https://api-docs.retroachievements.org/v1/get-game.html)|
-| `GetGameExtended()` | Get extended metadata about a game. |[docs](https://api-docs.retroachievements.org/v1/get-game-extended.html)|
+| Function            | Description                         | Links                                                                    |
+|---------------------|-------------------------------------|--------------------------------------------------------------------------|
+| `GetGame()`         | Get basic metadata about a game.    | [docs](https://api-docs.retroachievements.org/v1/get-game.html)          |
+| `GetGameExtended()` | Get extended metadata about a game. | [docs](https://api-docs.retroachievements.org/v1/get-game-extended.html) |
