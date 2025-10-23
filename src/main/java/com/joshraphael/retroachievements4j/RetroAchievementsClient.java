@@ -2,6 +2,7 @@ package com.joshraphael.retroachievements4j;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joshraphael.retroachievements4j.http.Request;
+import com.joshraphael.retroachievements4j.models.connect.AwardAchievement;
 import com.joshraphael.retroachievements4j.models.connect.Login;
 import com.joshraphael.retroachievements4j.models.connect.Ping;
 import com.joshraphael.retroachievements4j.models.connect.StartSession;
@@ -13,6 +14,7 @@ import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.security.NoSuchAlgorithmException;
 
 public class RetroAchievementsClient implements IRetroAchievements4j {
     private final CloseableHttpClient client;
@@ -67,5 +69,9 @@ public class RetroAchievementsClient implements IRetroAchievements4j {
 
     public ApiResponse<Ping> Ping(String username, String token, int gameID, String targetUsername, String richPresence) throws IOException, URISyntaxException {
         return this.connect.Ping(username, token, gameID, targetUsername, richPresence);
+    }
+
+    public ApiResponse<AwardAchievement> AwardAchievement(String username, String token, String targetUsername, int achievementID, boolean hardcore) throws IOException, URISyntaxException, NoSuchAlgorithmException {
+        return this.connect.AwardAchievement(username, token, targetUsername, achievementID, hardcore);
     }
 }

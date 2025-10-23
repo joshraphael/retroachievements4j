@@ -4,5 +4,5 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record Ping(
         @JsonProperty(value = "Success", required = true)
-        boolean Success
+        Boolean Success
 ) {}

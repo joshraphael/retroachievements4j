@@ -4,21 +4,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record Login (
     @JsonProperty(value = "Success", required = true)
-    boolean Success,
+    Boolean Success,
     @JsonProperty(value = "Status")
-    int Status,
+    Integer Status,
     @JsonProperty(value = "User")
     String User,
     @JsonProperty(value = "Token")
     String Token,
     @JsonProperty(value = "Score")
-    int Score,
+    Integer Score,
     @JsonProperty(value = "SoftcoreScore")
-    int SoftcoreScore,
+    Integer SoftcoreScore,
     @JsonProperty(value = "Messages")
-    int Messages,
+    Integer Messages,
     @JsonProperty(value = "Permissions")
-    int Permissions,
+    Integer Permissions,
     @JsonProperty(value = "AccountType")
     String AccountType,
     @JsonProperty(value = "Code")

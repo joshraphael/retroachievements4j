@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record Unlock(
         @JsonProperty(value = "ID", required = true)
-        int ID,
+        Integer ID,
         @JsonProperty(value = "When", required = true)
-        long When
+        Long When
 ) {}

@@ -1,3 +1,6 @@
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+
 plugins {
     id("java-library")
     id("jacoco")
@@ -47,6 +50,7 @@ publishing {
 }
 
 mavenPublishing {
+    configure(JavaLibrary(javadocJar = JavadocJar.Javadoc(), sourcesJar = true))
     coordinates(projectGroup, project.name, projectVersion)
 
     pom {
