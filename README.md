@@ -1,9 +1,9 @@
 # <p align="center">retroachievements4j</p>
 
-<p style="text-align:center">
+<p align="center">
     <i>A Java library that lets you get achievement, user, game data and more from RetroAchievements.</i>
 </p>
-<p style="text-align:center">
+<p align="center">
     <a href="https://api-docs.retroachievements.org/getting-started.html"><strong>Documentation: Get Started</strong></a>
 </p>
 <br>
