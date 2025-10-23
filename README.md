@@ -1,9 +1,9 @@
 # <p align="center">retroachievements4j</p>
 
-<p align="center">
+<p style="text-align:center">
     <i>A Java library that lets you get achievement, user, game data and more from RetroAchievements.</i>
 </p>
-<p align="center">
+<p style="text-align:center">
     <a href="https://api-docs.retroachievements.org/getting-started.html"><strong>Documentation: Get Started</strong></a>
 </p>
 <br>
@@ -14,6 +14,7 @@
 [![pipeline](https://github.com/joshraphael/retroachievements4j/actions/workflows/release.yaml/badge.svg)](https://github.com/joshraphael/retroachievements4j/actions/workflows/release.yaml)
 [![GitHub Tag](https://img.shields.io/github/v/tag/joshraphael/retroachievements4j)](https://github.com/joshraphael/retroachievements4j/tags)
 [![GitHub repo size](https://img.shields.io/github/repo-size/joshraphael/retroachievements4j)](https://github.com/joshraphael/retroachievements4j/archive/main.zip)
+[![javadoc](https://javadoc.io/badge2/com.joshraphael/retroachievements4j/javadoc.svg)](https://javadoc.io/doc/com.joshraphael/retroachievements4j)
 
 Available on [Maven Central](https://central.sonatype.com/artifact/com.joshraphael/retroachievements4j) and [Github](https://github.com/joshraphael/retroachievements4j/packages/2698688)
 
