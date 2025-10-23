@@ -14,8 +14,9 @@
 [![pipeline](https://github.com/joshraphael/retroachievements4j/actions/workflows/release.yaml/badge.svg)](https://github.com/joshraphael/retroachievements4j/actions/workflows/release.yaml)
 [![GitHub Tag](https://img.shields.io/github/v/tag/joshraphael/retroachievements4j)](https://github.com/joshraphael/retroachievements4j/tags)
 [![GitHub repo size](https://img.shields.io/github/repo-size/joshraphael/retroachievements4j)](https://github.com/joshraphael/retroachievements4j/archive/main.zip)
+[![javadoc](https://javadoc.io/badge2/com.joshraphael/retroachievements4j/javadoc.svg)](https://javadoc.io/doc/com.joshraphael/retroachievements4j)
 
-Available on [Maven Central](https://central.sonatype.com/artifact/com.joshraphael/retroachievements4j) and [Github](https://github.com/joshraphael/retroachievements4j/packages/2698688)
+Available on [Maven Central](https://central.sonatype.com/artifact/com.joshraphael/retroachievements4j) and [GitHub](https://github.com/joshraphael/retroachievements4j/packages/2698688)
 
 ## Installation
 

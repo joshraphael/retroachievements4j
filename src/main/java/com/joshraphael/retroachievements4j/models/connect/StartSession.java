@@ -6,15 +6,16 @@ import java.util.ArrayList;
 
 public record StartSession (
     @JsonProperty(value = "Success", required = true)
-    boolean Success,
-    @JsonProperty(value = "Status")
-    int Status,
+    Boolean Success,
     @JsonProperty(value = "HardcoreUnlocks")
     ArrayList<Unlock> HardcoreUnlocks,
     @JsonProperty(value = "Unlocks")
     ArrayList<Unlock> Unlocks,
     @JsonProperty(value = "ServerNow")
-    long ServerNow,
+    Long ServerNow,
+    // Error fields
+    @JsonProperty(value = "Status")
+    Integer Status,
     @JsonProperty(value = "Code")
     String Code,
     @JsonProperty(value = "Error")

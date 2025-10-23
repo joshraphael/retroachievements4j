@@ -1,5 +1,6 @@
 package com.joshraphael.retroachievements4j;
 
+import com.joshraphael.retroachievements4j.models.connect.AwardAchievement;
 import com.joshraphael.retroachievements4j.models.connect.Login;
 import com.joshraphael.retroachievements4j.models.connect.Ping;
 import com.joshraphael.retroachievements4j.models.connect.StartSession;
@@ -68,7 +69,7 @@ public class ConnectTest {
             assertEquals("Registered", login.resp().AccountType());
             assertNull(login.resp().Error());
             assertNull(login.resp().Code());
-            assertEquals(0, login.resp().Status());
+            assertNull(login.resp().Status());
         });
     }
 
@@ -108,7 +109,7 @@ public class ConnectTest {
             assertEquals(1704076711, session.resp().ServerNow());
             assertNull(session.resp().Error());
             assertNull(session.resp().Code());
-            assertEquals(0, session.resp().Status());
+            assertNull(session.resp().Status());
         });
     }
 
@@ -134,6 +135,43 @@ public class ConnectTest {
             // Validate response
             assertEquals(200, ping.statusCode());
             assertTrue(ping.resp().Success());
+        });
+    }
+
+    @Test
+    void testAwardAchievement() {
+        assertDoesNotThrow(() -> {
+            server.enqueue(new MockResponse().setBody("""
+            {
+                "Success": true,
+                "AchievementsRemaining": 5,
+                "Score": 22866,
+                "SoftcoreScore": 5,
+                "AchievementID": 9
+            }
+            """));
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            RetroAchievementsClient c = new RetroAchievementsClient(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0");
+
+            ApiResponse<AwardAchievement> ping = c.AwardAchievement("username", "4AotgGxjIH5iT1gz", "TheirUsername", 9, true);
+            RecordedRequest request = server.takeRequest();
+
+            // Validate request
+            assertEquals("POST", request.getMethod());
+            assertEquals("/dorequest.php?a=9&r=awardachievement&t=4AotgGxjIH5iT1gz&u=username&v=8f48cd6a05f875bf4c2818aec03523c1&h=1&k=TheirUsername", request.getPath());
+
+            // Validate response
+            assertEquals(200, ping.statusCode());
+            assertTrue(ping.resp().Success());
+            assertEquals(5, ping.resp().AchievementsRemaining());
+            assertEquals(22866, ping.resp().Score());
+            assertEquals(5, ping.resp().SoftcoreScore());
+            assertEquals(9, ping.resp().AchievementID());
+
+            // Validate Error
+            assertNull(ping.resp().Status());
+            assertNull(ping.resp().Code());
+            assertNull(ping.resp().Error());
         });
     }
 }

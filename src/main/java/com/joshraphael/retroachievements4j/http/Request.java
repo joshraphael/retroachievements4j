@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.core5.http.ClassicHttpRequest;
-import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.ProtocolVersion;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.net.URIBuilder;
@@ -75,6 +74,11 @@ public class Request {
         return this;
     }
 
+    public Request A(int value) {
+        String achievementID = Integer.toString(value);
+        return this.queryParameter("a", achievementID);
+    }
+
     public Request F(boolean value) {
         int val = 3;
         if(value) {
@@ -87,6 +91,14 @@ public class Request {
     public Request G(int value) {
         String gameID = Integer.toString(value);
         return this.queryParameter("g", gameID);
+    }
+
+    public Request H(boolean value) {
+        String hardcore = "0";
+        if(value) {
+            hardcore = "1";
+        }
+        return this.queryParameter("h", hardcore);
     }
 
     public Request I(String[] values) {
@@ -111,6 +123,10 @@ public class Request {
 
     public Request U(String value) {
         return this.queryParameter("u", value);
+    }
+
+    public Request V(String value) {
+        return this.queryParameter("v", value);
     }
 
     public Request Y(String value) {

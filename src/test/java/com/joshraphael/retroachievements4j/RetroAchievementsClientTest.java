@@ -1,5 +1,6 @@
 package com.joshraphael.retroachievements4j;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joshraphael.retroachievements4j.http.Request;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 import com.joshraphael.retroachievements4j.models.http.ApiResponse;
@@ -54,6 +55,7 @@ class RetroAchievementsClientTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void testDoIOException() {
         assertThrows(IOException.class, () -> {
             CloseableHttpClient mockHttpClient = EasyMock.createMock(CloseableHttpClient.class);
