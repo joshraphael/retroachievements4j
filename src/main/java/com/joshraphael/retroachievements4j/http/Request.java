@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.core5.http.ClassicHttpRequest;
-import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.ProtocolVersion;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.net.URIBuilder;
