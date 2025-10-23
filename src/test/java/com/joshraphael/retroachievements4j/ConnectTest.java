@@ -163,6 +163,15 @@ public class ConnectTest {
             // Validate response
             assertEquals(200, ping.statusCode());
             assertTrue(ping.resp().Success());
+            assertEquals(5, ping.resp().AchievementsRemaining());
+            assertEquals(22866, ping.resp().Score());
+            assertEquals(5, ping.resp().SoftcoreScore());
+            assertEquals(9, ping.resp().AchievementID());
+
+            // Validate Error
+            assertNull(ping.resp().Status());
+            assertNull(ping.resp().Code());
+            assertNull(ping.resp().Error());
         });
     }
 }

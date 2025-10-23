@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public record Login (
     @JsonProperty(value = "Success", required = true)
     Boolean Success,
-    @JsonProperty(value = "Status")
-    Integer Status,
     @JsonProperty(value = "User")
     String User,
     @JsonProperty(value = "Token")
@@ -21,6 +19,9 @@ public record Login (
     Integer Permissions,
     @JsonProperty(value = "AccountType")
     String AccountType,
+    // Error fields
+    @JsonProperty(value = "Status")
+    Integer Status,
     @JsonProperty(value = "Code")
     String Code,
     @JsonProperty(value = "Error")

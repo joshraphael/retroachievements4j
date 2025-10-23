@@ -12,6 +12,13 @@ public record AwardAchievement(
         @JsonProperty(value = "SoftcoreScore")
         Integer SoftcoreScore,
         @JsonProperty(value = "AchievementID")
-        Integer AchievementID
+        Integer AchievementID,
+        // Error fields
+        @JsonProperty(value = "Status")
+        Integer Status,
+        @JsonProperty(value = "Code")
+        String Code,
+        @JsonProperty(value = "Error")
+        String Error
 ) {
 }
