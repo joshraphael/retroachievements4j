@@ -1,5 +1,6 @@
 package com.joshraphael.retroachievements4j.http;
 
+import com.joshraphael.retroachievements4j.RetroAchievementsClient;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +10,7 @@ public class RequestTest {
     @Test
     void testBuild() {
         Request request = new Request()
-                .host("http://localhost")
+                .host(RetroAchievementsClient.URL)
                 .path("/api/v1/some_resource")
                 .methodOPTIONS()
                 .methodPOST()
@@ -29,7 +30,7 @@ public class RequestTest {
                 .V("ldjaf9082jf2")
                 .Y("secret_token2")
                 .formPart("state", "good");
-        assertEquals("http://localhost", request.getHost());
+        assertEquals("https://retroachievements.org", request.getHost());
         assertEquals("/api/v1/some_resource", request.getPath());
         assertEquals("GET", request.getMethod());
         assertEquals(2, request.getHeaders().size());
@@ -66,8 +67,8 @@ public class RequestTest {
         assertEquals("secret_token2", request.getQueryParameters().get("y"));
         assertDoesNotThrow(() -> {
             ClassicHttpRequest r = request.build();
-            assertEquals("http", r.getUri().getScheme());
-            assertEquals("localhost", r.getUri().getHost());
+            assertEquals("https", r.getUri().getScheme());
+            assertEquals("retroachievements.org", r.getUri().getHost());
             assertEquals("/api/v1/some_resource", r.getUri().getPath());
         });
     }
