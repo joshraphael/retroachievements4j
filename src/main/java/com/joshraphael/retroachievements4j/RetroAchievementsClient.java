@@ -17,6 +17,7 @@ import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
 
 public class RetroAchievementsClient implements IRetroAchievements4j {
+    public static final String URL = "https://retroachievements.org";
     private final CloseableHttpClient client;
     private final String host;
     private final String userAgent;
