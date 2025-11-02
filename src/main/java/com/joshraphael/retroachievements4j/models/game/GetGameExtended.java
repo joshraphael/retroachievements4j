@@ -1,6 +1,7 @@
 package com.joshraphael.retroachievements4j.models.game;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.joshraphael.retroachievements4j.models.Error;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -57,5 +58,10 @@ public record GetGameExtended(
         @JsonProperty(value = "NumDistinctPlayersCasual")
         Integer NumDistinctPlayersCasual,
         @JsonProperty(value = "NumDistinctPlayersHardcore")
-        Integer NumDistinctPlayersHardcore
+        Integer NumDistinctPlayersHardcore,
+        // Error
+        @JsonProperty(value = "message")
+        String Message,
+        @JsonProperty(value = "errors")
+        Error[] Errors
 ) {}

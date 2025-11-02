@@ -1,6 +1,7 @@
 package com.joshraphael.retroachievements4j.models.game;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.joshraphael.retroachievements4j.models.Error;
 
 public record GetGame (
     @JsonProperty(value = "Title")
@@ -36,5 +37,10 @@ public record GetGame (
     @JsonProperty(value = "Released")
     String Released,
     @JsonProperty(value = "ReleasedAtGranularity")
-    String ReleasedAtGranularity
+    String ReleasedAtGranularity,
+    // Error
+    @JsonProperty(value = "message")
+    String Message,
+    @JsonProperty(value = "errors")
+    Error[] Errors
 ) {}

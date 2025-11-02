@@ -48,3 +48,4 @@ For convenience, the API docs can be found in the tables below
 |---------------------|-------------------------------------|--------------------------------------------------------------------------|
 | `GetGame()`         | Get basic metadata about a game.    | [docs](https://api-docs.retroachievements.org/v1/get-game.html)          |
 | `GetGameExtended()` | Get extended metadata about a game. | [docs](https://api-docs.retroachievements.org/v1/get-game-extended.html) |
+| `GetGameHashes()`   | Get the hashes linked to a game.    | [docs](https://api-docs.retroachievements.org/v1/get-game-hashes.html)   |

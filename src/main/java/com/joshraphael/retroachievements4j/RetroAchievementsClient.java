@@ -8,6 +8,7 @@ import com.joshraphael.retroachievements4j.models.connect.Ping;
 import com.joshraphael.retroachievements4j.models.connect.StartSession;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 import com.joshraphael.retroachievements4j.models.game.GetGameExtended;
+import com.joshraphael.retroachievements4j.models.game.GetGameHashes;
 import com.joshraphael.retroachievements4j.models.http.ApiResponse;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.core5.http.io.HttpClientResponseHandler;
@@ -58,6 +59,10 @@ public class RetroAchievementsClient implements IRetroAchievements4j {
 
     public ApiResponse<GetGameExtended> GetGameExtended(String webToken, int gameID, Boolean unofficial) throws IOException, URISyntaxException {
         return this.game.GetGameExtended(webToken, gameID, unofficial);
+    }
+
+    public ApiResponse<GetGameHashes> GetGameHashes(String webToken, int gameID) throws IOException, URISyntaxException {
+        return this.game.GetGameHashes(webToken, gameID);
     }
 
     public ApiResponse<Login> Login(String username, String password) throws IOException, URISyntaxException {

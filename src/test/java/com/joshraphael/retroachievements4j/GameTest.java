@@ -3,6 +3,7 @@ package com.joshraphael.retroachievements4j;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 import com.joshraphael.retroachievements4j.models.game.GetGameExtended;
 import com.joshraphael.retroachievements4j.models.game.GetGameExtendedAchievement;
+import com.joshraphael.retroachievements4j.models.game.GetGameHashes;
 import com.joshraphael.retroachievements4j.models.http.ApiResponse;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -82,6 +83,8 @@ public class GameTest {
             assertEquals("", getGame.resp().Genre());
             assertEquals("1992-06-02 00:00:00", getGame.resp().Released());
             assertEquals("day", getGame.resp().ReleasedAtGranularity());
+            assertNull(getGame.resp().Message());
+            assertNull(getGame.resp().Errors());
         });
     }
 
@@ -190,6 +193,56 @@ public class GameTest {
             assertEquals(0, getGameExtended.resp().Claims().size());
             assertEquals(27080, getGameExtended.resp().NumDistinctPlayers());
             assertEquals(27080, getGameExtended.resp().NumDistinctPlayersHardcore());
+            assertNull(getGameExtended.resp().Message());
+            assertNull(getGameExtended.resp().Errors());
+        });
+    }
+
+    @Test
+    void testGetGameHashes() {
+        assertDoesNotThrow(() -> {
+            server.enqueue(new MockResponse().setBody("""
+            {
+                "Results": [
+                    {
+                        "MD5": "1b1d9ac862c387367e904036114c4825",
+                        "Name": "Sonic The Hedgehog (USA, Europe) (Ru) (NewGame).md",
+                        "Labels": ["nointro", "rapatches"],
+                        "PatchUrl": "https://github.com/RetroAchievements/RAPatches/raw/main/MD/Translation/Russian/1-Sonic1-Russian.zip"
+                    },
+                    {
+                        "MD5": "1bc674be034e43c96b86487ac69d9293",
+                        "Name": "Sonic The Hedgehog (USA, Europe).md",
+                        "Labels": ["nointro"],
+                        "PatchUrl": null
+                    }
+                ]
+            }
+            """));
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            RetroAchievementsClient c = new RetroAchievementsClient(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0");
+            ApiResponse<GetGameHashes> getGameHashes = c.GetGameHashes("secret_token", 123);
+            RecordedRequest request = server.takeRequest();
+            // Validate request
+            assertEquals("GET", request.getMethod());
+            assertEquals("/API/API_GetGameHashes.php?y=secret_token&i=123", request.getPath());
+
+            // Validate response
+            assertEquals(200, getGameHashes.statusCode());
+            assertEquals(2, getGameHashes.resp().Results().length);
+            assertEquals("1b1d9ac862c387367e904036114c4825", getGameHashes.resp().Results()[0].MD5());
+            assertEquals("Sonic The Hedgehog (USA, Europe) (Ru) (NewGame).md", getGameHashes.resp().Results()[0].Name());
+            assertEquals("https://github.com/RetroAchievements/RAPatches/raw/main/MD/Translation/Russian/1-Sonic1-Russian.zip", getGameHashes.resp().Results()[0].PatchUrl());
+            assertEquals(2, getGameHashes.resp().Results()[0].Labels().length);
+            assertEquals("nointro", getGameHashes.resp().Results()[0].Labels()[0]);
+            assertEquals("rapatches", getGameHashes.resp().Results()[0].Labels()[1]);
+            assertEquals("1bc674be034e43c96b86487ac69d9293", getGameHashes.resp().Results()[1].MD5());
+            assertEquals("Sonic The Hedgehog (USA, Europe).md", getGameHashes.resp().Results()[1].Name());
+            assertNull(getGameHashes.resp().Results()[1].PatchUrl());
+            assertEquals(1, getGameHashes.resp().Results()[1].Labels().length);
+            assertEquals("nointro", getGameHashes.resp().Results()[1].Labels()[0]);
+            assertNull(getGameHashes.resp().Message());
+            assertNull(getGameHashes.resp().Errors());
         });
     }
 }
