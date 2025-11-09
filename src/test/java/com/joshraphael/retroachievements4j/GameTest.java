@@ -4,6 +4,7 @@ import com.joshraphael.retroachievements4j.models.game.GetGame;
 import com.joshraphael.retroachievements4j.models.game.GetGameExtended;
 import com.joshraphael.retroachievements4j.models.game.GetGameExtendedAchievement;
 import com.joshraphael.retroachievements4j.models.game.GetGameHashes;
+import com.joshraphael.retroachievements4j.models.game.GetAchievementCount;
 import com.joshraphael.retroachievements4j.models.http.ApiResponse;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -243,6 +244,35 @@ public class GameTest {
             assertEquals("nointro", getGameHashes.resp().Results()[1].Labels()[0]);
             assertNull(getGameHashes.resp().Message());
             assertNull(getGameHashes.resp().Errors());
+        });
+    }
+
+    @Test
+    void testGetAchievementCount() {
+        assertDoesNotThrow(() -> {
+            server.enqueue(new MockResponse().setBody("""
+            {
+                "GameID": 14402,
+                "AchievementIDs": [
+                    79434, 79435, 79436, 79437, 79438, 79439, 79440, 79441, 79442, 79443, 79444,
+                    79445, 325413, 325414, 325415
+                ]
+            }
+            """));
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            RetroAchievementsClient c = new RetroAchievementsClient(httpClient, "http://" + server.getHostName() + ":" + server.getPort(), "retroachievements4j/v0.0.0");
+            ApiResponse<GetAchievementCount> getAchievementCount = c.GetAchievementCount("secret_token", 123);
+            RecordedRequest request = server.takeRequest();
+            // Validate request
+            assertEquals("GET", request.getMethod());
+            assertEquals("/API/API_GetAchievementCount.php?y=secret_token&i=123", request.getPath());
+
+            // Validate response
+            assertEquals(200, getAchievementCount.statusCode());
+            assertEquals(14402, getAchievementCount.resp().GameID());
+            assertEquals(15, getAchievementCount.resp().AchievementIDs().length);
+            assertNull(getAchievementCount.resp().Message());
+            assertNull(getAchievementCount.resp().Errors());
         });
     }
 }

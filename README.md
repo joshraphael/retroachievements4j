@@ -44,8 +44,9 @@ For convenience, the API docs can be found in the tables below
 
 <h3>Game</h3>
 
-| Function            | Description                         | Links                                                                    |
-|---------------------|-------------------------------------|--------------------------------------------------------------------------|
-| `GetGame()`         | Get basic metadata about a game.    | [docs](https://api-docs.retroachievements.org/v1/get-game.html)          |
-| `GetGameExtended()` | Get extended metadata about a game. | [docs](https://api-docs.retroachievements.org/v1/get-game-extended.html) |
-| `GetGameHashes()`   | Get the hashes linked to a game.    | [docs](https://api-docs.retroachievements.org/v1/get-game-hashes.html)   |
+| Function                | Description                                 | Links                                                                        |
+|-------------------------|---------------------------------------------|------------------------------------------------------------------------------|
+| `GetGame()`             | Get basic metadata about a game.            | [docs](https://api-docs.retroachievements.org/v1/get-game.html)              |
+| `GetGameExtended()`     | Get extended metadata about a game.         | [docs](https://api-docs.retroachievements.org/v1/get-game-extended.html)     |
+| `GetGameHashes()`       | Get the hashes linked to a game.            | [docs](https://api-docs.retroachievements.org/v1/get-game-hashes.html)       |
+| `GetAchievementCount()` | Get the list of achievement IDs for a game. | [docs](https://api-docs.retroachievements.org/v1/get-achievement-count.html) |

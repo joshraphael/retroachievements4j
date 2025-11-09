@@ -6,6 +6,7 @@ import com.joshraphael.retroachievements4j.models.connect.AwardAchievement;
 import com.joshraphael.retroachievements4j.models.connect.Login;
 import com.joshraphael.retroachievements4j.models.connect.Ping;
 import com.joshraphael.retroachievements4j.models.connect.StartSession;
+import com.joshraphael.retroachievements4j.models.game.GetAchievementCount;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 import com.joshraphael.retroachievements4j.models.game.GetGameExtended;
 import com.joshraphael.retroachievements4j.models.game.GetGameHashes;
@@ -63,6 +64,10 @@ public class RetroAchievementsClient implements IRetroAchievements4j {
 
     public ApiResponse<GetGameHashes> GetGameHashes(String webToken, int gameID) throws IOException, URISyntaxException {
         return this.game.GetGameHashes(webToken, gameID);
+    }
+
+    public ApiResponse<GetAchievementCount> GetAchievementCount(String webToken, int gameID) throws IOException, URISyntaxException {
+        return this.game.GetAchievementCount(webToken, gameID);
     }
 
     public ApiResponse<Login> Login(String username, String password) throws IOException, URISyntaxException {

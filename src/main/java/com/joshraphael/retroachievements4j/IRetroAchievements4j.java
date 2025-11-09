@@ -3,6 +3,7 @@ package com.joshraphael.retroachievements4j;
 import com.joshraphael.retroachievements4j.models.connect.AwardAchievement;
 import com.joshraphael.retroachievements4j.models.connect.Ping;
 import com.joshraphael.retroachievements4j.models.connect.StartSession;
+import com.joshraphael.retroachievements4j.models.game.GetAchievementCount;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 import com.joshraphael.retroachievements4j.models.connect.Login;
 import com.joshraphael.retroachievements4j.models.game.GetGameExtended;
@@ -18,6 +19,7 @@ public interface IRetroAchievements4j {
     ApiResponse<GetGame> GetGame(String webToken, int gameID) throws IOException, URISyntaxException;
     ApiResponse<GetGameExtended> GetGameExtended(String webToken, int gameID, Boolean unofficial) throws IOException, URISyntaxException;
     ApiResponse<GetGameHashes> GetGameHashes(String webToken, int gameID) throws IOException, URISyntaxException;
+    ApiResponse<GetAchievementCount> GetAchievementCount(String webToken, int gameID) throws IOException, URISyntaxException;
 
     // Connect API
     ApiResponse<Login> Login(String username, String password) throws IOException, URISyntaxException;
