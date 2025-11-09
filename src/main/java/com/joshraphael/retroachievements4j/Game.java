@@ -1,6 +1,7 @@
 package com.joshraphael.retroachievements4j;
 
 import com.joshraphael.retroachievements4j.http.Request;
+import com.joshraphael.retroachievements4j.models.game.GetAchievementCount;
 import com.joshraphael.retroachievements4j.models.game.GetGame;
 import com.joshraphael.retroachievements4j.models.game.GetGameExtended;
 import com.joshraphael.retroachievements4j.models.game.GetGameHashes;
@@ -49,5 +50,16 @@ class Game {
                 .Y(webToken)
                 .I(new String[]{strGameID});
         return this.c.Do(r, GetGameHashes.class);
+    }
+
+    ApiResponse<GetAchievementCount> GetAchievementCount(String webToken, int gameID) throws IOException, URISyntaxException {
+        String strGameID = Integer.toString(gameID);
+        Request r = this.c.newRequestBuilder()
+                .path("/API/API_GetAchievementCount.php")
+                .userAgent(this.c.getUserAgent())
+                .methodGET()
+                .Y(webToken)
+                .I(new String[]{strGameID});
+        return this.c.Do(r, GetAchievementCount.class);
     }
 }
